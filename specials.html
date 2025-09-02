@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smoothify</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style2.css">
+
+  </head>
+  <body>
+<div class="topbar">
+    📍 Delivering to: <span id="location-text">Gulshan, Karachi</span> | <a style="cursor: pointer;" onclick="showLocationPopup()">Change Location</a>
+  </div>
+  
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
+<nav>
+  <div class="logo">
+   <a href="index.html">
+      <img src="images/logo/smothifylogo.png" alt="Smoothify Logo" style="height: 50px; width: 180px;">
+   </a>
+  </div>
+
+  <!-- Hamburger -->
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="about.html">About</a>
+    <a href="specials.html">Specials</a>
+    <a href="contact.html">Contact</a>
+    <a href="Fruit-glass-enhanced.html">Fruit Glass</a>
+    <a href="sipnscore.html">Sip & Score</a>
+
+    <div class="account-dropdown">
+      <a href="#"><i class="fas fa-user"></i> Account ▾</a>
+      <div class="account-dropdown-content">
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<div class="location-popup" id="locationPopup">
+  <div class="popup-header">
+    <span>Change Your Location</span>
+    <button class="close-btn" onclick="closeLocationPopup()">&times;</button>
+  </div>
+  <input type="text" id="locationInput" placeholder="Select location" readonly onclick="toggleLocationList()" />
+  <div class="location-list" id="locationList">
+    <div onclick="chooseLocation('Gulshan, Karachi')">Gulshan, Karachi</div>
+    <div onclick="chooseLocation('Clifton, Karachi')">Clifton, Karachi</div>
+    <div onclick="chooseLocation('DHA, Karachi')">DHA, Karachi</div>
+    <div onclick="chooseLocation('Bahadurabad, Karachi')">Bahadurabad, Karachi</div>
+    <div onclick="chooseLocation('Nazimabad, Karachi')">Nazimabad, Karachi</div>
+    <div onclick="chooseLocation('PECHS, Karachi')">PECHS, Karachi</div>
+    <div onclick="chooseLocation('North Nazimabad, Karachi')">North Nazimabad, Karachi</div>
+    <div onclick="chooseLocation('Model Colony, Karachi')">Model Colony, Karachi</div>
+    <div onclick="chooseLocation('Korangi, Karachi')">Korangi, Karachi</div>
+    <div onclick="chooseLocation('Malir, Karachi')">Malir, Karachi</div>
+    <div onclick="chooseLocation('Landhi, Karachi')">Landhi, Karachi</div>
+    <div onclick="chooseLocation('Saddar, Karachi')">Saddar, Karachi</div>
+    <div onclick="chooseLocation('Gulberg, Karachi')">Gulberg, Karachi</div>
+    <div onclick="chooseLocation('Gulistan-e-Jauhar, Karachi')">Gulistan-e-Jauhar, Karachi</div>
+    <div onclick="chooseLocation('Surjani Town, Karachi')">Surjani Town, Karachi</div>
+    <div onclick="chooseLocation('New Karachi')">New Karachi</div>
+    <div onclick="chooseLocation('Liaquatabad, Karachi')">Liaquatabad, Karachi</div>
+    <div onclick="chooseLocation('Federal B Area, Karachi')">Federal B Area, Karachi</div>
+    <div onclick="chooseLocation('Garden, Karachi')">Garden, Karachi</div>
+    <div onclick="chooseLocation('Shah Faisal Colony, Karachi')">Shah Faisal Colony, Karachi</div>
+    <div onclick="chooseLocation('Karimabad, Karachi')">Karimabad, Karachi</div>
+  </div>
+  <input type="text" id="addressInput" placeholder="Enter full delivery address" />
+  <input type="text" id="contactInput" placeholder="Enter contact number" />
+  <button onclick="saveLocation()">Save</button>
+</div>
+
+<!-- Chat Blur Overlay -->
+<div id="chat-blur-overlay" onclick="toggleChat()"></div>
+
+<!-- Floating Cup Icon -->
+<div id="chatbot-icon" onclick="toggleChat()">☕</div>
+
+<!-- Chatbox Window -->
+<div id="chatbox" class="hidden">
+  <style>
+    /* Scrollable chat body */
+    #chatbox .chat-body {
+      max-height: 300px; /* adjust height as needed */
+      overflow-y: auto;
+      padding: 10px;
+      scrollbar-width: thin;
+      scrollbar-color: #f7aecb #f0f0f0;
+    }
+
+    /* Webkit scrollbar */
+    #chatbox .chat-body::-webkit-scrollbar {
+      width: 6px;
+    }
+    #chatbox .chat-body::-webkit-scrollbar-track {
+      background: #f0f0f0;
+      border-radius: 3px;
+    }
+    #chatbox .chat-body::-webkit-scrollbar-thumb {
+      background: #ff4d6d;
+      border-radius: 3px;
+    }
+  </style>
+
+  <div class="chat-header">
+    Smoothify AI
+    <span onclick="toggleChat()" style="cursor:pointer;">&times;</span>
+  </div>
+
+  <div id="chatBody" class="chat-body">
+    <div class="bot">Hey there! How are you feeling today?</div>
+  </div>
+
+  <div class="chat-input">
+    <input id="userInput" type="text" placeholder="Type your mood..." onkeydown="handleKey(event)" />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+  <!-- HERO -->
+  <header class="sp-hero">
+    <div class="sp-hero__bg"></div>
+
+    <!-- floating doodles -->
+    <span class="sp-doodle sp-doodle--cup" aria-hidden="true">☕</span>
+    <span class="sp-doodle sp-doodle--heart" aria-hidden="true">❤</span>
+    <span class="sp-doodle sp-doodle--spark" aria-hidden="true">✦</span>
+    <span class="sp-doodle sp-doodle--straw" aria-hidden="true">🥤</span>
+
+    <div class="sp-hero__content">
+      <span class="sp-badge">Limited • Fresh • Fun</span>
+      <h1>Where Every Sip Feels <span>Special</span></h1>
+      <p>Brunch vibes, cafe cravings & sweet treats — all dressed in bright, happy flavors.</p>
+      <div class="sp-cta-row">
+        <a href="#specials" class="sp-btn sp-btn--dark">Explore Specials</a>
+        <a href="#why" class="sp-link">Why you'll love it →</a>
+      </div>
+    </div>
+
+    <!-- doodle -->
+    <div class="bg-doodles"></div>
+<section class="star-section">
+  <h1>This Month’s Star</h1>
+  <p class="star-desc">Our most loved drink, crafted with passion and bursting with flavor. Perfect for your cozy brunch moments!</p>
+
+  <div class="star-card">
+    <div class="badge">Best Seller</div>
+    <div class="drink-img">
+      <img src="./images/shakes/strabery.png" alt="Drink of the Month" style="width:100%">
+      <div class="steam"></div>
+    </div>
+    <h2 style="color:#ff6f91;">Strawberry Bliss Latte</h2>
+    <p style="color:#555;">A dreamy blend of creamy milk, sweet strawberries, and a hint of vanilla.</p>
+    <div class="fun-fact">ℹ Fun Fact
+      <span>We handpick strawberries from local farms for this drink!</span>
+    </div>
+  </div>
+</section>
+
+    <!-- wave divider -->
+    <div class="sp-wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path d="M0,64 C240,120 480,8 720,56 C960,104 1200,120 1440,72 L1440,0 L0,0 Z"></path>
+      </svg>
+    </div>
+  </header>
+
+  <!-- SECTION: SPECIALS GRID -->
+  <section id="specials" class="sp-section">
+    <div class="sp-section__head">
+      <h2 class="sp-title">Today’s <span>Specials</span></h2>
+      <p class="sp-sub">Bright, playful & totally binge-worthy — handpicked for your mood.</p>
+    </div>
+
+    <div class="sp-grid">
+      <!-- CARD 1 -->
+      <article class="about-card sp-reveal">
+        <div class="about-card__media">
+          <img src="images/coffee/cappucino.png" alt="Classic Cappuccino">
+          <span class="sp-ribbon">Best Seller</span>
+        </div>
+        <div class="about-card__body">
+          <h3>Classic Cappuccino</h3>
+          <p>Sophisticated but soft. Frothy, rich, and never out of style. Like the quiet girl who reads and ruins your standards.</p>
+          <div class="about-card__meta">
+            <span class="sp-price">Rs 360</span>
+            <button class="sp-mini-btn" data-add="Pink Lemonade Drip">Add</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 2 -->
+      <article class="about-card sp-reveal">
+        <div class="about-card__media">
+          <img src="images/shakes/boba.png" alt="Boba Baddie">
+          <span class="sp-ribbon sp-ribbon--pink">New</span>
+        </div>
+        <div class="about-card__body">
+          <h3>Boba Baddie</h3>
+          <p>Choose your baddie: Brown Sugar for the drama, Taro for the aesthetic, Matcha for the chaos.</p>
+          <div class="about-card__meta">
+            <span class="sp-price">Rs 650</span>
+            <button class="sp-mini-btn" data-add="Oreo Shake It Up">Add</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 3 -->
+      <article class="about-card sp-reveal">
+        <div class="about-card__media">
+          <img src="images/lunch/Mini Dutch Pancakes.jpg" alt="Brunch Board Bliss">
+          <span class="sp-ribbon sp-ribbon--gold">Combo</span>
+        </div>
+        <div class="about-card__body">
+          <h3>Brunch Board Bliss</h3>
+          <p>Mini pancakes, eggs, fruit & dips — the whole weekend vibe.</p>
+          <div class="about-card__meta">
+            <span class="sp-price">Rs 1499</span>
+            <button class="sp-mini-btn" data-add="Brunch Board Bliss">Add</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 4 -->
+      <article class="about-card sp-reveal">
+        <div class="about-card__media">
+          <img src="images/coffee/matcha.png" alt="Matcha Mood">
+          <span class="sp-ribbon sp-ribbon--mint">Vegan</span>
+        </div>
+        <div class="about-card__body">
+          <h3>Matcha Mood</h3>
+          <p>Clean-girl energy. Earthy-chill & aesthetically green.</p>
+          <div class="about-card__meta">
+            <span class="sp-price">Rs 490</span>
+            <button class="sp-mini-btn" data-add="Matcha Mood">Add</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 5 -->
+      <article class="about-card sp-reveal">
+        <div class="about-card__media">
+          <img src="images/sweet/lava.jpg" alt="Choco Lava Cream Dream">
+          <span class="sp-ribbon sp-ribbon--fire">Hot</span>
+        </div>
+        <div class="about-card__body">
+          <h3>Choco Lava Cream Dream</h3>
+          <p>Molten cake + ice-cream swirl. Hot & cold perfection.</p>
+          <div class="about-card__meta">
+            <span class="sp-price">Rs 440</span>
+            <button class="sp-mini-btn" data-add="Choco Lava Cream Dream">Add</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 6 -->
+      <article class="about-card sp-reveal">
+        <div class="about-card__media">
+          <img src="images/mocktails/mint mojito.jpg" alt="Mint Mojito Babe">
+          <span class="sp-ribbon sp-ribbon--lime">Zing</span>
+        </div>
+        <div class="about-card__body">
+          <h3>Mint Mojito Babe</h3>
+          <p>Cool mint, lime sparkle — breeziest babe in the room.</p>
+          <div class="about-card__meta">
+            <span class="sp-price">Rs 350</span>
+            <button class="sp-mini-btn" data-add="Mint Mojito Babe">Add</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+   <!-- Floating Cart Button -->
+<button class="cart-btn" onclick="toggleCart()">🛒</button>
+
+<!-- Sidebar Cart -->
+<div id="cartSidebar" class="cart-sidebar">
+  <div class="cart-header">
+    Your Cart
+    <button onclick="closeCart()">✖</button>
+  </div>
+
+  <!-- Cart Items -->
+  <div id="cartItems" class="cart-items"></div>
+
+  <!-- Footer -->
+  <div class="cart-footer">
+    <span>Total: <span id="total-price">0 PKR</span></span>
+    <button class="checkout-btn" onclick="placeOrder()">Place Order</button>
+  </div>
+</div>
+
+
+  
+
+  <!-- WIGGLE DIVIDER -->
+  <div class="sp-divider" aria-hidden="true">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+      <path d="M0,40 C240,0 480,80 720,40 C960,0 1200,80 1440,40 L1440,80 L0,80 Z"></path>
+    </svg>
+  </div>
+
+  <!-- WHY YOU'LL LOVE IT -->
+  <section id="why" class="sp-why">
+    <div class="sp-section__head">
+      <h2 class="sp-title">Why you'll <span>love</span> it</h2>
+      <p class="sp-sub">Playful UI, premium vibes & photo-ready plates.</p>
+    </div>
+
+    <div class="sp-why__grid">
+      <div class="sp-why__item sp-reveal">
+        <div class="sp-why__icon">✨</div>
+        <h3>Doodle Aesthetics</h3>
+        <p>Wavy frames, cute badges & soft shadows — ultra friendly look.</p>
+      </div>
+
+      <div class="sp-why__item sp-reveal">
+        <div class="sp-why__icon">⚡</div>
+        <h3>Snappy UI</h3>
+        <p>Hover glow, micro-interactions & smooth scroll reveals.</p>
+      </div>
+
+      <div class="sp-why__item sp-reveal">
+        <div class="sp-why__icon">🎨</div>
+        <h3>Bright Palette</h3>
+        <p>Beige base + bright yellow & pink pops for max attention.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="sp-cta">
+    <div class="sp-cta__card sp-reveal">
+      <h3>Ready to Brunch like a Baddie?</h3>
+      <p>Grab your fave special & let the vibes do the talking.</p>
+      <a href="#specials" class="sp-btn sp-btn--shine">Order a Special</a>
+    </div>
+  </section>
+
+
+  
+  <script src="script.js"></script>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- FOOTER -->
+<footer class="cafe-footer">
+  <!-- Wave Shape -->
+  <div class="footer-wave">
+    <svg viewBox="0 0 500 150" preserveAspectRatio="none">
+      <path d="M0.00,49.98 C150.00,150.00 350.00,-50.00 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" 
+            style="stroke: none; fill: #ffda47;"></path>
+    </svg>
+  </div>
+
+  <div class="footer-container">
+    <!-- Left -->
+    <div class="footer-about">
+      <h2>☕ Smoothify</h2>
+      <p>Brewing smiles one cup at a time! Come for the coffee, stay for the love.</p>
+    </div>
+
+    <!-- Middle -->
+    <div class="footer-links">
+      <h3>🍩 Quick Links</h3>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="menu.html">📜 Menu</a></li>
+        <li><a href="Fruit-glass-enhanced.html">🎮 Fruit Glass Game</a></li>
+        <li><a href="specials.html"> 🦐Specials</a></li>
+        <li><a href="sipnscore.html">👌SipnScore</a></li>
+      </ul>
+    </div>
+
+    <!-- Right -->
+    <div class="footer-social">
+      <h3>🌸 Connect</h3>
+      <div class="social-icons">
+  <!-- Instagram Login -->
+  <a href="https://www.instagram.com/accounts/login/" target="_blank">
+    <i class="fab fa-instagram"></i>
+  </a>
+
+  <!-- Twitter (X) Login -->
+  <a href="https://twitter.com/login" target="_blank">
+    <i class="fab fa-twitter"></i>
+  </a>
+
+  <!-- Facebook Login -->
+  <a href="https://www.facebook.com/login/" target="_blank">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+
+  <!-- Google Maps Location (Example) -->
+  <a href="https://www.google.com/maps" target="_blank">
+    <i class="fas fa-map-marker-alt"></i>
+  </a>
+</div>
+
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025  Smoothify </p>
+  </div>
+</footer>
+
+
+<script src="special.js" ></script>
+ 
+</body>
+</html>

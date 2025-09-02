@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Place Your Order</title>
+<link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="style.css">
+
+
+<style>
+  /* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #fffceb;
+  min-height: 100vh;
+  align-items: center;
+  align-content: center;
+}
+
+/* Navbar */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ffd93d;
+  padding: 15px 20px;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+/* Content wrapper */
+.content-wrapper {
+  display: flex;
+  justify-content: center;   
+  align-items: center;       
+  min-height: calc(100vh - 70px); 
+  margin-top: 70px;  
+  background: url('./images/banner/card banner.png') no-repeat center center/cover;
+  padding: 20px;
+}
+
+/* Form box */
+.order-form, .order-tracking {
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  max-width: 450px;
+  width: 100%;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+
+/* Headings */
+h1 {
+  text-align: center;
+  color: #ff4f81;
+  margin-bottom: 20px;
+}
+
+/* Labels & inputs */
+label {
+  font-weight: 600;
+  margin-top: 10px;
+  display: block;
+  color: #ff4f81;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 2px solid #ffd93d;
+  font-size: 1rem;
+  outline: none;
+  background: #fffceb;
+  transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+  border-color: #ff4f81;
+  box-shadow: 0 0 5px rgba(255, 79, 129, 0.5);
+}
+
+/* Error */
+.error {
+  border-color: red !important;
+  background: #ffe6e6;
+}
+.error-msg {
+  font-size: 0.85rem;
+  color: red;
+  display: none;
+  margin-top: 3px;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  background: #ffd93d;
+  color: #ff4f81;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+button:hover {
+  background: #ff4f81;
+  color: white;
+}
+
+/* Tracking */
+.order-tracking {
+  display: none;
+  text-align: center;
+}
+.timer {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ff4f81;
+  margin-bottom: 20px;
+}
+.progress-container {
+  width: 100%;
+  height: 20px;
+  background: #ffe7ba;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #ffd93d, #ff4f81);
+  width: 0%;
+  transition: width 1s linear;
+}
+.order-graphic {
+  width: 150px;
+  animation: bounce 1.5s infinite ease-in-out;
+  margin-bottom: 20px;
+}
+@keyframes bounce {
+  0%,100% { transform: translateY(0);}
+  50% { transform: translateY(-10px);}
+}
+
+/* Popup */
+.popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+.popup-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  max-width: 350px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.popup-content h2 {
+  color: #ff4f81;
+  margin-bottom: 10px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+</style>
+
+
+</head>
+<body>
+
+
+<!-- Top Bar -->
+<div class="topbar">
+  📍 Delivering to: <span id="location-text">Gulshan, Karachi</span> |<a style="cursor: pointer;" onclick="showLocationPopup()">Change Location</a>
+</div>
+
+<!-- Location Popup -->
+<div class="location-popup" id="locationPopup">
+  <div class="popup-header">
+    <span>Change Your Location</span>
+    <button class="close-btn" onclick="closeLocationPopup()">&times;</button>
+  </div>
+
+  <label>Select Area</label>
+  <input type="text" id="locationInput" placeholder="Click to select location" readonly onclick="toggleLocationList()" />
+
+  <div class="location-list" id="locationList">
+    <div onclick="chooseLocation('Gulshan, Karachi')">Gulshan, Karachi</div>
+    <div onclick="chooseLocation('Clifton, Karachi')">Clifton, Karachi</div>
+    <div onclick="chooseLocation('DHA, Karachi')">DHA, Karachi</div>
+    <div onclick="chooseLocation('Nazimabad, Karachi')">Nazimabad, Karachi</div>
+    <div onclick="chooseLocation('PECHS, Karachi')">PECHS, Karachi</div>
+    <div onclick="chooseLocation('Gulistan-e-Jauhar, Karachi')">Gulistan-e-Jauhar, Karachi</div>
+  </div>
+
+  <label>Full Address</label>
+  <input type="text" id="addressInput" placeholder="Enter full delivery address" />
+  <p class="error" id="addressError"></p>
+
+  <label>Contact Number</label>
+  <input type="text" id="contactInput" placeholder="Enter contact number" />
+  <p class="error" id="contactError"></p>
+
+ <a style="color: white ; cursor: pointer;;" onclick="saveLocation()">Save ></a></button>
+</div>
+<br>
+
+
+<nav>
+  <div class="logo">
+   <a href="index.html">
+      <img src="images/logo/smothifylogo.png" alt="Smoothify Logo" style="height: 50px; width: 180px;">
+   </a>
+  </div>
+
+  <!-- Hamburger -->
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="about.html">About</a>
+    <a href="specials.html">Specials</a>
+    <a href="contact.html">Contact</a>
+    <a href="Fruit-glass-enhanced.html">Fruit Glass</a>
+    <a href="sipnscore.html">Sip & Score</a>
+
+    <div class="account-dropdown">
+      <a href="#"><i class="fas fa-user"></i> Account ▾</a>
+      <div class="account-dropdown-content">
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<br>
+<br>
+<br>
+
+
+<!-- Navbar yahan pe already hai -->
+
+<!-- Content wrapper -->
+<div class="content-wrapper">
+  <!-- Order form -->
+  <div class="order-form" id="order-form">
+    <h1>Place Your Order</h1>
+
+    <label for="name">Name:</label>
+    <input type="text" id="name">
+    <div class="error-msg" id="name-error">Only letters allowed (min 2)</div>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email">
+    <div class="error-msg" id="email-error">Enter a valid email</div>
+
+    <label for="phone">Contact Number:</label>
+    <input type="tel" id="phone">
+    <div class="error-msg" id="phone-error">Enter a valid phone number (10+ digits)</div>
+
+    <label for="address">Address:</label>
+    <input type="text" id="address">
+    <div class="error-msg" id="address-error">Enter a valid address (min 15 characters)</div>
+
+    <label for="payment">Payment Method:</label>
+    <select id="payment">
+      <option value="">Select Payment Method</option>
+      <option value="cod">Cash on Delivery</option>
+    </select>
+    <div class="error-msg" id="payment-error">Please select a payment method</div>
+
+    <button type="button" id="place-order-btn">Place Order</button>
+  </div>
+
+  <!-- Preparing Order -->
+  <div class="order-tracking" id="order-tracking">
+    <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
+         class="order-graphic" alt="Preparing Order">
+    <h1>Preparing your order</h1>
+    <div class="timer" id="timer">15:00 minutes left</div>
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Popup -->
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <h2>Order Successfully Placed 🎉</h2>
+    <p>Thank you! Your delicious drink is on the way.</p>
+    <button onclick="goBack()">Back to Specials</button>
+  </div>
+</div>
+
+
+<script>
+// Event listener for order button
+document.getElementById('place-order-btn').addEventListener('click', startOrder);
+
+// Validation helper
+function toggleError(input, errorId, isValid) {
+  const errorMsg = document.getElementById(errorId);
+  if (isValid) {
+    input.classList.remove('error');
+    errorMsg.style.display = 'none';
+  } else {
+    input.classList.add('error');
+    errorMsg.style.display = 'block';
+  }
+}
+
+// Start order
+function startOrder() {
+  const name = document.getElementById('name');
+  const email = document.getElementById('email');
+  const phone = document.getElementById('phone');
+  const address = document.getElementById('address');
+  const payment = document.getElementById('payment');
+
+  const fields = [
+    {input: name, valid: /^[A-Za-z ]{2,}$/.test(name.value.trim()), error: 'name-error'},
+    {input: email, valid: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()), error: 'email-error'},
+    {input: phone, valid: /^[0-9]{10,}$/.test(phone.value.trim()), error: 'phone-error'},
+    {input: address, valid: address.value.trim().length >= 15, error: 'address-error'},
+    {input: payment, valid: payment.value !== "", error: 'payment-error'}
+  ];
+
+  let validForm = true;
+  fields.forEach(f => {
+    toggleError(f.input, f.error, f.valid);
+    if (!f.valid) validForm = false;
+  });
+
+  if (!validForm) {
+    alert("Please fill all required fields correctly!");
+    return;
+  }
+
+  // Show order tracking
+  document.getElementById('order-form').style.display = 'none';
+  document.getElementById('order-tracking').style.display = 'block';
+  startCountdown(15 * 60); // 15 min countdown
+}
+
+// Countdown with modular function
+function startCountdown(totalTime) {
+  const timerDisplay = document.getElementById('timer');
+  const progressBar = document.getElementById('progress-bar');
+  let remainingTime = totalTime;
+
+  const interval = setInterval(() => {
+    const minutes = Math.floor(remainingTime / 60);
+    const seconds = remainingTime % 60;
+    timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds} minutes left`;
+
+    const progress = ((totalTime - remainingTime) / totalTime) * 100;
+    progressBar.style.width = `${progress}%`;
+
+    if (remainingTime <= 0) {
+      clearInterval(interval);
+      showPopup();
+    }
+    remainingTime--;
+  }, 1000);
+}
+
+// Popup logic
+function showPopup() {
+  document.getElementById('popup').style.display = 'flex';
+  setTimeout(goBack, 5000);
+}
+
+function goBack() {
+  window.location.href = "dashboard.html";
+}
+
+</script>
+
+</body>
+</html>

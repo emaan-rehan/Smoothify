@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smoothify</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style2.css">
+
+  </head>
+  <body>
+<div class="topbar">
+    📍 Delivering to: <span id="location-text">Gulshan, Karachi</span> | <a style="cursor: pointer;" onclick="showLocationPopup()">Change Location</a>
+  </div>
+  
+ <!-- Add FontAwesome CDN for icons -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
+<nav>
+  <div class="logo">
+   <a href="index.html">
+      <img src="images/logo/smothifylogo.png" alt="Smoothify Logo" style="height: 50px; width: 180px;">
+   </a>
+  </div>
+
+  <!-- Hamburger -->
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="nav-links" id="navLinks">
+    <a href="dashboard.html">Home</a>
+    <a href="menu2.html">Menu</a>
+    <a href="about 2.html">About</a>
+    <a href="specials 2.html">Specials</a>
+    <a href="contact 2.html">Contact</a>
+    <a href="Fruit-glass-enhanced 2.html">Fruit Glass</a>
+    <a href="sipnscore 2.html">Sip & Score</a>
+
+    <div class="account-dropdown">
+      <a href="#"><i class="fas fa-user"></i> Account ▾</a>
+      <div class="account-dropdown-content">
+       <a href="logout.html">Logout</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="location-popup" id="locationPopup">
+  <div class="popup-header">
+    <span>Change Your Location</span>
+    <button class="close-btn" onclick="closeLocationPopup()">&times;</button>
+  </div>
+  <input type="text" id="locationInput" placeholder="Select location" readonly onclick="toggleLocationList()" />
+  <div class="location-list" id="locationList">
+    <div onclick="chooseLocation('Gulshan, Karachi')">Gulshan, Karachi</div>
+    <div onclick="chooseLocation('Clifton, Karachi')">Clifton, Karachi</div>
+    <div onclick="chooseLocation('DHA, Karachi')">DHA, Karachi</div>
+    <div onclick="chooseLocation('Bahadurabad, Karachi')">Bahadurabad, Karachi</div>
+    <div onclick="chooseLocation('Nazimabad, Karachi')">Nazimabad, Karachi</div>
+    <div onclick="chooseLocation('PECHS, Karachi')">PECHS, Karachi</div>
+    <div onclick="chooseLocation('North Nazimabad, Karachi')">North Nazimabad, Karachi</div>
+    <div onclick="chooseLocation('Model Colony, Karachi')">Model Colony, Karachi</div>
+    <div onclick="chooseLocation('Korangi, Karachi')">Korangi, Karachi</div>
+    <div onclick="chooseLocation('Malir, Karachi')">Malir, Karachi</div>
+    <div onclick="chooseLocation('Landhi, Karachi')">Landhi, Karachi</div>
+    <div onclick="chooseLocation('Saddar, Karachi')">Saddar, Karachi</div>
+    <div onclick="chooseLocation('Gulberg, Karachi')">Gulberg, Karachi</div>
+    <div onclick="chooseLocation('Gulistan-e-Jauhar, Karachi')">Gulistan-e-Jauhar, Karachi</div>
+    <div onclick="chooseLocation('Surjani Town, Karachi')">Surjani Town, Karachi</div>
+    <div onclick="chooseLocation('New Karachi')">New Karachi</div>
+    <div onclick="chooseLocation('Liaquatabad, Karachi')">Liaquatabad, Karachi</div>
+    <div onclick="chooseLocation('Federal B Area, Karachi')">Federal B Area, Karachi</div>
+    <div onclick="chooseLocation('Garden, Karachi')">Garden, Karachi</div>
+    <div onclick="chooseLocation('Shah Faisal Colony, Karachi')">Shah Faisal Colony, Karachi</div>
+    <div onclick="chooseLocation('Karimabad, Karachi')">Karimabad, Karachi</div>
+  </div>
+  <input type="text" id="addressInput" placeholder="Enter full delivery address" />
+  <input type="text" id="contactInput" placeholder="Enter contact number" />
+   <a style="color: white ; cursor: pointer;;" onclick="saveLocation()">Save ></a></button>
+</div>
+
+
+<!-- Chat Blur Overlay -->
+<div id="chat-blur-overlay" onclick="toggleChat()"></div>
+
+<!-- Floating Cup Icon -->
+<div id="chatbot-icon" onclick="toggleChat()">☕</div>
+
+<!-- Chatbox Window -->
+<div id="chatbox" class="hidden">
+  <div class="chat-header">
+    Smoothify AI
+    <span onclick="toggleChat()" style="cursor:pointer;">&times;</span>
+  </div>
+
+  <div id="chatBody" class="chat-body">
+    <div class="bot">Hey there! How are you feeling today?</div>
+  </div>
+
+  <div class="chat-input">
+    <input id="userInput" type="text" placeholder="Type your mood..." onkeydown="handleKey(event)" />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+<br>
+<br>
+<br>
+
+<section class="contact-section">
+  <h1 class="page-title">Let's Connect with Smoothify ☕</h1>
+  <p class="subtitle">We'd love to hear from you! Whether it's feedback, questions, or just saying hi.</p>
+
+  <div class="contact-grid">
+    <!-- Form -->
+    <form class="contact-form" onsubmit="return validateForm()">
+      <label for="name">Name <span>*</span></label>
+      <input type="text" id="name" placeholder="Your name" />
+      <span class="error" id="nameError"></span>
+
+      <label for="email">Email <span>*</span></label>
+      <input type="email" id="email" placeholder="you@example.com" />
+      <span class="error" id="emailError"></span>
+
+      <label for="phone">Phone</label>
+      <input type="tel" id="phone" placeholder="Optional" />
+
+      <label for="inquiry">Inquiry Type</label>
+      <select id="inquiry">
+        <option value="">Select...</option>
+        <option value="feedback">Feedback</option>
+        <option value="booking">Booking</option>
+        <option value="menu">Menu Query</option>
+        <option value="other">Other</option>
+      </select>
+
+      <label for="message">Message <span>*</span></label>
+      <textarea id="message" rows="5" placeholder="Write your message..."></textarea>
+      <span class="error" id="messageError"></span>
+
+      <button type="submit">Send Message</button>
+    </form>
+
+    <!-- Location Info -->
+    <div class="location-info">
+      <h2>📍 Our Café</h2>
+      <p><strong>Address:</strong><br>Gulshan-e-Iqbal Block 5, Karachi, Pakistan</p>
+      <p><strong>Phone:</strong><br>+92-300-1234567</p>
+      <p><strong>Email:</strong><br>hello@smoothifycafe.pk</p>
+      
+      <div class="map-container">
+        <iframe src="https://www.google.com/maps?q=Gulshan-e-Iqbal,+Karachi,+Pakistan&output=embed" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- FOOTER -->
+<footer class="cafe-footer">
+  <!-- Wave Shape -->
+  <div class="footer-wave">
+    <svg viewBox="0 0 500 150" preserveAspectRatio="none">
+      <path d="M0.00,49.98 C150.00,150.00 350.00,-50.00 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" 
+            style="stroke: none; fill: #ffda47;"></path>
+    </svg>
+  </div>
+
+  <div class="footer-container">
+    <!-- Left -->
+    <div class="footer-about">
+      <h2>☕ Smoothify</h2>
+      <p>Brewing smiles one cup at a time! Come for the coffee, stay for the love.</p>
+    </div>
+
+    <!-- Middle -->
+    <div class="footer-links">
+      <h3>🍩 Quick Links</h3>
+      <ul>
+        <li><a href="dashboard.html">🏠 Home</a></li>
+        <li><a href="menu2.html">📜 Menu</a></li>
+        <li><a href="Fruit-glass-enhanced 2.html">🎮 Fruit Glass Game</a></li>
+        <li><a href="contact 2.html">📞 Contact</a></li>
+        <li><a href="specials 2.html"> 🦐Specials</a></li>
+        <li><a href="sipnscore 2.html">👌SipnScore</a></li>
+      </ul>
+    </div>
+
+    <!-- Right -->
+    <div class="footer-social">
+      <h3>🌸 Connect</h3>
+      <div class="social-icons">
+  <!-- Instagram Login -->
+  <a href="https://www.instagram.com/accounts/login/" target="_blank">
+    <i class="fab fa-instagram"></i>
+  </a>
+
+  <!-- Twitter (X) Login -->
+  <a href="https://twitter.com/login" target="_blank">
+    <i class="fab fa-twitter"></i>
+  </a>
+
+  <!-- Facebook Login -->
+  <a href="https://www.facebook.com/login/" target="_blank">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+
+  <!-- Google Maps Location (Example) -->
+  <a href="https://www.google.com/maps" target="_blank">
+    <i class="fas fa-map-marker-alt"></i>
+  </a>
+</div>
+
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025  Smoothify </p>
+  </div>
+</footer>
+
+
+ <script src="script.js"></script>   
+</body>
+</html>

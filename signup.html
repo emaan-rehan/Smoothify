@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smoothify</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style2.css">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- Inline CSS for form -->
+  <style>
+/* Section Background */
+.signup-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  min-height: 100vh;
+  background: url('./images/signup-bg.jpg') no-repeat center center/cover;
+}
+
+/* Form Card */
+.form-wrapper {
+  background: rgba(255, 255, 255, 0.85); /* semi-transparent */
+  padding: 30px;
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  max-width: 400px;
+  width: 100%;
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #ff4d6d;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Form Fields */
+.form-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 12px;
+  border: 2px solid #ffb6c1;
+  outline: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #ff4d6d;
+}
+
+.error-message {
+  color: #ff4d4d;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* Buttons */
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #ff4d6d, #ffda77);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+button[type="submit"]:hover {
+  transform: scale(1.05);
+}
+
+/* Footer text */
+.form-footer {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+  color: #333;
+}
+
+.form-footer a {
+  color: #ff4d6d;
+  text-decoration: none;
+}
+
+.form-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media(max-width: 500px) {
+  .form-wrapper {
+    padding: 20px;
+  }
+  button[type="submit"] {
+    font-size: 15px;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    📍 Delivering to: <span id="location-text">Gulshan, Karachi</span> | 
+    <a style="cursor: pointer;" onclick="showLocationPopup()">Change Location</a>
+  </div>
+<div class="location-popup" id="locationPopup">
+  <div class="popup-header">
+    <span>Change Your Location</span>
+    <button class="close-btn" onclick="closeLocationPopup()">&times;</button>
+  </div>
+
+  <label>Select Area</label>
+  <input type="text" id="locationInput" placeholder="Click to select location" readonly onclick="toggleLocationList()" />
+
+  <div class="location-list" id="locationList">
+    <div onclick="chooseLocation('Gulshan, Karachi')">Gulshan, Karachi</div>
+    <div onclick="chooseLocation('Clifton, Karachi')">Clifton, Karachi</div>
+    <div onclick="chooseLocation('DHA, Karachi')">DHA, Karachi</div>
+    <div onclick="chooseLocation('Nazimabad, Karachi')">Nazimabad, Karachi</div>
+    <div onclick="chooseLocation('PECHS, Karachi')">PECHS, Karachi</div>
+    <div onclick="chooseLocation('Gulistan-e-Jauhar, Karachi')">Gulistan-e-Jauhar, Karachi</div>
+  </div>
+
+  <label>Full Address</label>
+  <input type="text" id="addressInput" placeholder="Enter full delivery address" />
+  <p class="error" id="addressError"></p>
+
+  <label>Contact Number</label>
+  <input type="text" id="contactInput" placeholder="Enter contact number" />
+  <p class="error" id="contactError"></p>
+
+  <a style="color: white ; cursor: pointer;;" onclick="saveLocation()">Save ></a></button>
+</div>
+
+<nav>
+  <div class="logo">
+   <a href="index.html">
+      <img src="images/logo/smothifylogo.png" alt="Smoothify Logo" style="height: 50px; width: 180px;">
+   </a>
+  </div>
+
+  <!-- Hamburger -->
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="about.html">About</a>
+    <a href="specials.html">Specials</a>
+    <a href="contact.html">Contact</a>
+    <a href="Fruit-glass-enhanced.html">Fruit Glass</a>
+    <a href="sipnscore.html">Sip & Score</a>
+
+    <div class="account-dropdown">
+      <a href="#"><i class="fas fa-user"></i> Account ▾</a>
+      <div class="account-dropdown-content">
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Location Popup -->
+  <div class="location-popup" id="locationPopup">
+    <!-- (same location popup content as before) -->
+  </div>
+
+<!-- Signup Form Section -->
+<section class="signup-section">
+  <div class="form-wrapper">
+    <div class="form-container">
+      <h2>Create Account ✨</h2>
+      <form id="signupForm" novalidate>
+        
+        <!-- Full Name -->
+        <div class="form-group">
+          <label for="fullname">Full Name</label>
+          <input 
+            type="text" 
+            id="fullname" 
+            placeholder="Your Name" 
+            required 
+            pattern="^[A-Za-z\s]{2,30}$" 
+            title="Name should be 2–30 letters only."
+          />
+          <div class="error-message" id="nameError"></div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="signup-email">Email</label>
+          <input 
+            type="email" 
+            id="signup-email" 
+            placeholder="you@gmail.com" 
+            required
+          />
+          <div class="error-message" id="emailError"></div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="signup-password">Password</label>
+          <input 
+            type="password" 
+            id="signup-password" 
+            placeholder="********" 
+            required 
+            minlength="6"
+            title="Password must be at least 6 characters."
+          />
+          <div class="error-message" id="passError"></div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password</label>
+          <input 
+            type="password" 
+            id="confirm-password" 
+            placeholder="********" 
+            required 
+            minlength="6"
+          />
+          <div class="error-message" id="confirmPassError"></div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="signupBtn">Sign Up</button>
+
+        <div class="form-footer">
+          Already have an account? <a href="login.html">Login</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+const form = document.getElementById('signupForm');
+const fullname = document.getElementById('fullname');
+const email = document.getElementById('signup-email');
+const password = document.getElementById('signup-password');
+const confirmPassword = document.getElementById('confirm-password');
+
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  let isValid = true;
+
+  // Name Validation
+  if(!fullname.value.match(/^[A-Za-z\s]{2,30}$/)){
+    isValid = false;
+    document.getElementById('nameError').textContent = "Name should be 2–30 letters only.";
+  } else {
+    document.getElementById('nameError').textContent = "";
+  }
+
+  // Email Validation
+  const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+  if(!email.value.match(emailPattern)){
+    isValid = false;
+    document.getElementById('emailError').textContent = "Enter a valid email.";
+  } else {
+    document.getElementById('emailError').textContent = "";
+  }
+
+  // Password Validation
+  if(password.value.length < 6){
+    isValid = false;
+    document.getElementById('passError').textContent = "Password must be at least 6 characters.";
+  } else {
+    document.getElementById('passError').textContent = "";
+  }
+
+  // Confirm Password
+  if(password.value !== confirmPassword.value){
+    isValid = false;
+    document.getElementById('confirmPassError').textContent = "Passwords do not match!";
+  } else {
+    document.getElementById('confirmPassError').textContent = "";
+  }
+
+  // ✅ If all validations pass, save to localStorage and redirect
+  if(isValid){
+    // Save user data to localStorage
+    const user = {
+      name: fullname.value,
+      email: email.value,
+      password: password.value
+    };
+    localStorage.setItem("user", JSON.stringify(user)); // user info saved
+
+    alert("Signup successful! Please login now.");
+    window.location.href = "login.html"; // redirect to login page
+  }
+});
+</script>
+
+
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- FOOTER -->
+<footer class="cafe-footer">
+  <!-- Wave Shape -->
+  <div class="footer-wave">
+    <svg viewBox="0 0 500 150" preserveAspectRatio="none">
+      <path d="M0.00,49.98 C150.00,150.00 350.00,-50.00 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" 
+            style="stroke: none; fill: #ffda47;"></path>
+    </svg>
+  </div>
+
+  <div class="footer-container">
+    <!-- Left -->
+    <div class="footer-about">
+      <h2>☕ Smoothify</h2>
+      <p>Brewing smiles one cup at a time! Come for the coffee, stay for the love.</p>
+    </div>
+
+    <!-- Middle -->
+    <div class="footer-links">
+      <h3>🍩 Quick Links</h3>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="menu.html">📜 Menu</a></li>
+        <li><a href="Fruit-glass-enhanced.html">🎮 Fruit Glass Game</a></li>
+        <li><a href="specials.html"> 🦐Specials</a></li>
+        <li><a href="sipnscore.html">👌SipnScore</a></li>
+      </ul>
+    </div>
+
+    <!-- Right -->
+    <div class="footer-social">
+      <h3>🌸 Connect</h3>
+      <div class="social-icons">
+  <!-- Instagram Login -->
+  <a href="https://www.instagram.com/accounts/login/" target="_blank">
+    <i class="fab fa-instagram"></i>
+  </a>
+
+  <!-- Twitter (X) Login -->
+  <a href="https://twitter.com/login" target="_blank">
+    <i class="fab fa-twitter"></i>
+  </a>
+
+  <!-- Facebook Login -->
+  <a href="https://www.facebook.com/login/" target="_blank">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+
+  <!-- Google Maps Location (Example) -->
+  <a href="https://www.google.com/maps" target="_blank">
+    <i class="fas fa-map-marker-alt"></i>
+  </a>
+</div>
+
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025  Smoothify </p>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+  <script src="script2.js"></script>
+</body>
+</html>

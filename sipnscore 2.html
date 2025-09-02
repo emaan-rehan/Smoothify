@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style2.css">
+
+</head>
+<body>
+    
+
+<!-- Top Bar -->
+<div class="topbar">
+  📍 Delivering to: <span id="location-text">Gulshan, Karachi</span> |
+   <a style="cursor: pointer;" onclick="showLocationPopup()">Change Location</a>
+</div>
+
+<!-- Location Popup -->
+<div class="location-popup" id="locationPopup">
+  <div class="popup-header">
+    <span>Change Your Location</span>
+    <button class="close-btn" onclick="closeLocationPopup()">&times;</button>
+  </div>
+
+  <label>Select Area</label>
+  <input type="text" id="locationInput" placeholder="Click to select location" readonly onclick="toggleLocationList()" />
+
+  <div class="location-list" id="locationList">
+    <div onclick="chooseLocation('Gulshan, Karachi')">Gulshan, Karachi</div>
+    <div onclick="chooseLocation('Clifton, Karachi')">Clifton, Karachi</div>
+    <div onclick="chooseLocation('DHA, Karachi')">DHA, Karachi</div>
+    <div onclick="chooseLocation('Nazimabad, Karachi')">Nazimabad, Karachi</div>
+    <div onclick="chooseLocation('PECHS, Karachi')">PECHS, Karachi</div>
+    <div onclick="chooseLocation('Gulistan-e-Jauhar, Karachi')">Gulistan-e-Jauhar, Karachi</div>
+  </div>
+
+  <label>Full Address</label>
+  <input type="text" id="addressInput" placeholder="Enter full delivery address" />
+  <p class="error" id="addressError"></p>
+
+  <label>Contact Number</label>
+  <input type="text" id="contactInput" placeholder="Enter contact number" />
+  <p class="error" id="contactError"></p>
+
+  <a style="color: white ; cursor: pointer;;" onclick="saveLocation()">Save ></a></button>
+</div>
+<br>
+
+<nav>
+  <div class="logo">
+   <a href="index.html">
+      <img src="images/logo/smothifylogo.png" alt="Smoothify Logo" style="height: 50px; width: 180px;">
+   </a>
+  </div>
+
+  <!-- Hamburger -->
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="nav-links" id="navLinks">
+    <a href="dashboard.html">Home</a>
+    <a href="menu2.html">Menu</a>
+    <a href="about 2.html">About</a>
+    <a href="specials 2.html">Specials</a>
+    <a href="contact 2.html">Contact</a>
+    <a href="Fruit-glass-enhanced 2.html">Fruit Glass</a>
+    <a href="sipnscore 2.html">Sip & Score</a>
+
+    <div class="account-dropdown">
+      <a href="#"><i class="fas fa-user"></i> Account ▾</a>
+      <div class="account-dropdown-content">
+       <a href="logout.html">Logout</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<br>
+<br>
+<br>
+
+<style>
+
+/* ------------------- Spin Wheel ------------------- */
+/* ------------------- Spin Wheel ------------------- */
+.spin-wheel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: clamp(160px, 25vw, 350px);
+  height: clamp(160px, 25vw, 350px);
+  border-radius: 50%;
+  border: 6px solid #ff89c9;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+.spin-wheel .slice {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0% 0%;
+  background: #ffcc70;
+  color: #333;
+  text-align: center;
+  font-size: clamp(12px, 1.6vw, 18px);
+  font-weight: bold;
+}
+.spin-btn {
+  margin-top: 15px;
+  padding: clamp(6px, 1.5vw, 12px) clamp(12px, 2vw, 20px);
+  font-size: clamp(14px, 1.5vw, 18px);
+  background: #ff89c9;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+.spin-btn:hover { background: #ff5eaf; }
+
+/* ------------------- Popup ------------------- */
+.wheel-popup {
+  position: fixed;
+  inset: 0;
+  display: none;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.wheel-popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+}
+.wheel-popup-content button {
+  margin: 5px;
+  padding: 8px 15px;
+  font-size: clamp(12px, 1.4vw, 16px);
+  background: #ff89c9;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.wheel-popup-content button:hover { background: #ff5eaf; }
+
+/* ------------------- Coffee Cup Game ------------------- */
+.game-container {
+  position: relative;
+  width: 95%;
+  max-width: 480px;
+  aspect-ratio: 2 / 3;
+  background: url('./images/banner/card banner.png') no-repeat center/cover;
+  border: 5px solid #ff89c9;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: auto;
+}
+.coffee-cup {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20%;
+  max-width: 90px;
+  aspect-ratio: 1/1;
+  background: url('./images/games/cup.png') no-repeat center/contain;
+}
+.bean {
+  position: absolute;
+  width: 8%;
+  max-width: 40px;
+  aspect-ratio: 1/1;
+  background: url('./images/games/marshmallo.png') no-repeat center/contain;
+}
+.score, .timer {
+  position: absolute;
+  top: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: clamp(4px, 1vw, 10px) clamp(6px, 1.5vw, 12px);
+  border-radius: 10px;
+  font-size: clamp(12px, 1.5vw, 18px);
+  font-weight: bold;
+  color: #333;
+}
+.score { left: 10px; }
+.timer { right: 10px; }
+
+/* Game Buttons */
+.game-buttons {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+.btn {
+  padding: clamp(6px, 1vw, 12px) clamp(10px, 2vw, 16px);
+  background: #ff89c9;
+  border: none;
+  border-radius: 10px;
+  font-size: clamp(12px, 1.5vw, 16px);
+  color: white;
+  cursor: pointer;
+}
+.btn:hover { background: #ff5eaf; }
+
+/* Mobile Controls */
+.controls {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+}
+.circle-btn {
+  width: clamp(40px, 10vw, 70px);
+  height: clamp(40px, 10vw, 70px);
+  border: none;
+  border-radius: 50%;
+  background: #ff89c9;
+  color: white;
+  font-size: clamp(16px, 4vw, 28px);
+  cursor: pointer;
+}
+.circle-btn:active { background: #ff5eaf; }
+
+/* End screen */
+.end-screen {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(14px, 2vw, 22px);
+  display: none;
+}
+
+/* ------------------- Quiz ------------------- */
+.quiz-container {
+  background: white;
+  padding: clamp(15px, 3vw, 25px);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+}
+.question {
+  font-size: clamp(14px, 2vw, 20px);
+  margin-bottom: 15px;
+  color: #333;
+}
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+button.option {
+  background: #ffecb3;
+  border: none;
+  padding: clamp(8px, 2vw, 12px);
+  border-radius: 8px;
+  font-size: clamp(14px, 1.5vw, 18px);
+  cursor: pointer;
+  transition: 0.3s;
+}
+button.option:hover { background: #ff89c9; color: white; }
+.feedback {
+  margin-top: 10px;
+  font-weight: bold;
+}
+.next-btn {
+  margin-top: 15px;
+  padding: 8px 15px;
+  font-size: clamp(14px, 1.5vw, 16px);
+  background: #ff89c9;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.next-btn:hover { background: #ff5eaf; }
+
+/* ------------------- Responsive Breakpoints ------------------- */
+@media (max-width: 1200px) { /* PC */
+  .game-container { max-width: 420px; }
+}
+@media (max-width: 992px) { /* Laptop */
+  .game-container { max-width: 380px; }
+}
+@media (max-width: 768px) { /* Tablet */
+  .game-container { max-width: 320px; }
+}
+@media (max-width: 480px) { /* Mobile */
+  .game-container { max-width: 260px; }
+  .options { gap: 8px; }
+}
+
+</style>
+
+</head>
+<body>
+<h2 style="font-weight: 700; color: red; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: center; font-size: 50px;">Chance to win Discounts/Freebies</h2>
+<h1 style="text-align: center;">1: Spin the Wheel - Today's Special</h1>
+<div style="display:flex;justify-content:center;align-items:center;flex-direction:column;">
+<div class="spin-wheel" id="wheel"></div>
+<button class="spin-btn" id="spinBtn">Spin!</button>
+
+<!-- Popup -->
+<div class="wheel-popup" id="resultPopup">
+  <div class="wheel-popup-content">
+    <h2 id="winText"></h2>
+  <a href="order.html"> <button onclick="orderNow()">Order Now</button></a>
+    <button onclick="saveArchive()">Save to Archive</button>
+    <button onclick="closePopup()">Close</button>
+  </div>
+</div>
+
+<canvas class="fireworks" id="fireworksCanvas"></canvas>
+<br>
+<br>
+
+<h1 style="font-weight: 700;">2:Catch The Mellows</h1>
+<!-- cup game -->
+<div class="game-container">
+  <div class="score">Score: 0</div>
+  <div class="timer">Time: 60s</div>
+  <div class="coffee-cup" id="cup"></div>
+
+  <!-- Mobile Controls -->
+  <div class="controls">
+    <button class="circle-btn" id="leftBtn">←</button>
+    <button class="circle-btn" id="rightBtn">→</button>
+  </div>
+
+  <!-- Game Buttons -->
+  <div class="game-buttons">
+    <button class="btn" id="startBtn">Start</button>
+    <button class="btn" id="pauseBtn">Pause</button>
+    <button class="btn" id="endBtn">End</button>
+  </div>
+
+  <!-- End Screen -->
+  <div class="end-screen" id="endScreen">
+    <p id="finalMsg"></p>
+    <button class="btn" onclick="location.reload()">Play Again</button>
+  </div>
+</div>
+
+<br>
+<br>
+<br>
+
+<h1>☕ Coffee Quiz Pop</h1>
+<div class="quiz-container">
+  <div id="quiz-content">
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" id="next-btn" style="display:none;">Next</button>
+  </div>
+</div>
+
+<script>
+
+const wheel = document.getElementById('wheel');
+const drinks = ["Latte", "Mocha", "Matcha", "Cappuccino", "Iced Coffee", "Caramel Frappe"];
+const colors = ["#FFCC70", "#FFD700", "#FFA07A", "#FF69B4", "#BA55D3", "#87CEFA"];
+let spinning = false;
+
+// Create slices
+const sliceDeg = 360 / drinks.length;
+drinks.forEach((drink, i) => {
+  const slice = document.createElement('div');
+  slice.className = 'slice';
+  slice.style.background = colors[i % colors.length];
+  slice.style.transform = `rotate(${sliceDeg * i}deg) skewY(${90 - sliceDeg}deg)`;
+  slice.innerHTML = `<div style="transform: skewY(-${90 - sliceDeg}deg) rotate(${sliceDeg/2}deg); padding-top: 20px;">${drink}</div>`;
+  wheel.appendChild(slice);
+});
+
+const spinBtn = document.getElementById('spinBtn');
+spinBtn.addEventListener('click', () => {
+  if (spinning) return;
+  spinning = true;
+  const deg = 360 * 5 + Math.floor(Math.random() * 360);
+  wheel.style.transition = 'transform 4s ease-out';
+  wheel.style.transform = `rotate(${deg}deg)`;
+
+  setTimeout(() => {
+    spinning = false;
+    const actualDeg = deg % 360;
+    const index = Math.floor((360 - actualDeg) / sliceDeg) % drinks.length;
+    showPopup(drinks[index]);
+    launchFireworks();
+  }, 4200);
+});
+
+function showPopup(drink) {
+  document.getElementById('winText').textContent = `You won: ${drink}!`;
+  document.getElementById('resultPopup').style.display = 'flex';
+}
+
+function closePopup() {
+  document.getElementById('resultPopup').style.display = 'none';
+}
+
+function orderNow() {
+  alert('Order placed!');
+}
+
+function saveArchive() {
+  alert('Saved to archive!');
+}
+
+// Fireworks effect
+function launchFireworks() {
+  const canvas = document.getElementById('fireworksCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let particles = [];
+  for (let i = 0; i < 100; i++) {
+    particles.push({
+      x: canvas.width/2,
+      y: canvas.height/2,
+      speed: Math.random() * 5 + 2,
+      angle: Math.random() * Math.PI * 2,
+      radius: Math.random() * 3 + 2,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      life: 100
+    });
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.x += Math.cos(p.angle) * p.speed;
+      p.y += Math.sin(p.angle) * p.speed;
+      p.life--;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+    });
+    particles = particles.filter(p => p.life > 0);
+    if (particles.length) requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+// cup
+  const gameContainer = document.querySelector('.game-container');
+  const cup = document.getElementById('cup');
+  const scoreDisplay = document.querySelector('.score');
+  const timerDisplay = document.querySelector('.timer');
+  const endScreen = document.getElementById('endScreen');
+  const finalMsg = document.getElementById('finalMsg');
+
+  let score = 0;
+  let cupX = 160;
+  let speed = 3;
+  let gameInterval;
+  let beanInterval;
+  let timeLeft = 60;
+  let gameRunning = false;
+
+  cup.style.left = cupX + 'px';
+
+  // Move cup with keyboard
+  document.addEventListener('keydown', (e) => {
+    if (!gameRunning) return;
+    if (e.key === 'ArrowLeft' && cupX > 0) cupX -= 20;
+    if (e.key === 'ArrowRight' && cupX < (400 - 80)) cupX += 20;
+    cup.style.left = cupX + 'px';
+  });
+
+  // Mobile Controls
+  document.getElementById('leftBtn').addEventListener('click', () => {
+    if (!gameRunning) return;
+    if (cupX > 0) cupX -= 20;
+    cup.style.left = cupX + 'px';
+  });
+  document.getElementById('rightBtn').addEventListener('click', () => {
+    if (!gameRunning) return;
+    if (cupX < (400 - 80)) cupX += 20;
+    cup.style.left = cupX + 'px';
+  });
+
+  // Drop beans
+  function createBean() {
+    const bean = document.createElement('div');
+    bean.classList.add('bean');
+    bean.style.left = Math.random() * (400 - 30) + 'px';
+    bean.style.top = '0px';
+    gameContainer.appendChild(bean);
+
+    let fallInterval = setInterval(() => {
+      let beanTop = parseInt(bean.style.top);
+      beanTop += speed;
+      bean.style.top = beanTop + 'px';
+
+      // Collision detection
+      if (
+        beanTop > 500 &&
+        parseInt(bean.style.left) > cupX - 20 &&
+        parseInt(bean.style.left) < cupX + 60
+      ) {
+        score++;
+        scoreDisplay.textContent = "Score: " + score;
+        bean.remove();
+        clearInterval(fallInterval);
+      }
+
+      // Remove bean if out of box
+      if (beanTop > 600) {
+        bean.remove();
+        clearInterval(fallInterval);
+      }
+    }, 20);
+  }
+
+  // Start Game
+  document.getElementById('startBtn').addEventListener('click', () => {
+    if (!gameRunning) {
+      gameRunning = true;
+      beanInterval = setInterval(createBean, 1000);
+      gameInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = "Time: " + timeLeft + "s";
+        if (timeLeft <= 0) endGame();
+      }, 1000);
+    }
+  });
+
+  // Pause Game
+  document.getElementById('pauseBtn').addEventListener('click', () => {
+    gameRunning = false;
+    clearInterval(beanInterval);
+    clearInterval(gameInterval);
+  });
+
+  // End Game Button
+  document.getElementById('endBtn').addEventListener('click', endGame);
+
+  // End Game Function
+  function endGame() {
+    gameRunning = false;
+    clearInterval(beanInterval);
+    clearInterval(gameInterval);
+    document.querySelectorAll('.bean').forEach(b => b.remove());
+
+    if (score >= 20) {
+      finalMsg.textContent = `🎉 You caught ${score} Mellows! You won 20% Discount!`;
+    } else {
+      finalMsg.textContent = `You caught ${score} Mellows! Better luck next time!`;
+    }
+    endScreen.style.display = 'flex';
+  }
+
+  // smoothie
+  const smoothieCorrectOrder = ["Strawberry", "Banana", "Milk"];
+let smoothiePlayerOrder = [];
+
+document.querySelectorAll('.smoothie-ingredient').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.dataset.item;
+    smoothiePlayerOrder.push(item);
+
+    if (smoothiePlayerOrder.length === smoothieCorrectOrder.length) {
+      if (JSON.stringify(smoothiePlayerOrder) === JSON.stringify(smoothieCorrectOrder)) {
+        document.getElementById('smoothie-popup').style.display = 'flex';
+      } else {
+        document.getElementById('smoothie-message').textContent = "❌ Wrong order! Try again.";
+      }
+      smoothiePlayerOrder = [];
+    }
+  });
+});
+
+function closeSmoothiePopup() {
+  document.getElementById('smoothie-popup').style.display = 'none';
+  document.getElementById('smoothie-message').textContent = "";
+}
+</script>
+
+<script>
+  const quizData = [
+  {
+    question: "What’s a macchiato?",
+    options: ["Espresso with milk foam", "Black coffee", "Latte with caramel", "Iced mocha"],
+    answer: 0
+  },
+  {
+    question: "Where does most Arabica coffee grow?",
+    options: ["Brazil", "Ethiopia", "Vietnam", "Italy"],
+    answer: 0
+  },
+  {
+    question: "What is a flat white?",
+    options: ["Espresso with steamed milk", "Cold brew with cream", "Americano", "Espresso shot only"],
+    answer: 0
+  },
+  {
+    question: "Which roast has the most caffeine?",
+    options: ["Light roast", "Medium roast", "Dark roast", "Espresso roast"],
+    answer: 0
+  },
+  {
+    question: "Which country invented espresso?",
+    options: ["France", "Italy", "Spain", "Greece"],
+    answer: 1
+  }
+];
+
+let currentQuestion = 0;
+
+const questionEl = document.getElementById('question');
+const optionsEl = document.getElementById('options');
+const feedbackEl = document.getElementById('feedback');
+const nextBtn = document.getElementById('next-btn');
+
+function loadQuestion() {
+  const q = quizData[currentQuestion];
+  questionEl.textContent = q.question;
+  optionsEl.innerHTML = '';
+  feedbackEl.textContent = '';
+  q.options.forEach((opt, index) => {
+    const btn = document.createElement('button');
+    btn.textContent = opt;
+    btn.classList.add('option');
+    btn.onclick = () => checkAnswer(index);
+    optionsEl.appendChild(btn);
+  });
+}
+
+function checkAnswer(selectedIndex) {
+  const correct = quizData[currentQuestion].answer;
+  if (selectedIndex === correct) {
+    score++;
+    feedbackEl.textContent = "✅ Correct!";
+    feedbackEl.style.color = "green";
+  } else {
+    feedbackEl.textContent = "❌ Wrong!";
+    feedbackEl.style.color = "red";
+  }
+  document.querySelectorAll('.option').forEach(btn => btn.disabled = true);
+  nextBtn.style.display = 'inline-block';
+}
+
+nextBtn.onclick = () => {
+  currentQuestion++;
+  if (currentQuestion < quizData.length) {
+    loadQuestion();
+    nextBtn.style.display = 'none';
+  } else {
+    showResult();
+  }
+};
+
+function showResult() {
+  let reward = "";
+  if (score === quizData.length) {
+    reward = "🎉 Perfect! You win extra loyalty points!";
+  } else if (score >= 3) {
+    reward = "👏 Good job! You earned some loyalty points!";
+  } else {
+    reward = "☕ Keep learning about coffee!";
+  }
+  document.getElementById('quiz-content').innerHTML = `
+    <h2>Your Score: ${score}/${quizData.length}</h2>
+    <p>${reward}</p>
+  `;
+}
+
+loadQuestion();
+</script>
+
+
+
+ <script src="script.js"></script>
+</body>
+</html>

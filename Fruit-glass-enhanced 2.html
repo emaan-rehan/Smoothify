@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smoothify</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
+  </head>
+  <body>
+    <style>
+      nav{
+        background: #FFD93D;
+      }
+
+.juice-lab {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #ffe5f1, #fff3b0);
+  flex-wrap: wrap;
+}
+
+.glass-area {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.glass {
+  width: 300px;
+  height: 800px;
+  border: 6px solid rgba(255, 255, 255, 0.7);
+  border-radius: 0 0 90px 90px;
+  background: rgba(255, 255, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.juice {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 0;
+  background: transparent;
+  transition: all 1s ease;
+}
+
+.shine {
+  position: absolute;
+  top: 0;
+  left: 20%;
+  width: 30%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  filter: blur(25px);
+}
+
+.toppings-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.controls {
+  flex: 1;
+  max-width: 400px;
+  background: #ffffffaa;
+  backdrop-filter: blur(12px);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.controls h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ff4d6d;
+}
+
+.control-block {
+  margin-bottom: 20px;
+}
+
+.control-block h3 {
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.options button {
+  flex: 1 1 45%;
+  padding: 10px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: #ffb6c1;
+  color: #333;
+  font-size: 14px;
+  transition: transform 0.2s, background 0.3s;
+}
+
+.options button:hover {
+  background: #ffda77;
+  transform: scale(1.05);
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.actions button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #ff4d6d, #ffda77);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.actions button:hover {
+  opacity: 0.9;
+  transform: scale(1.03);
+}
+
+/* Topping Sprinkle Animation */
+.topping-item {
+  position: absolute;
+  font-size: 22px;
+  animation: fall 2s linear forwards;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(350px) rotate(360deg); opacity: 0; }
+}
+
+/* Shine Animation */
+.mix-shine {
+  animation: shineEffect 1.5s ease forwards;
+}
+
+@keyframes shineEffect {
+  0% { background: rgba(255,255,255,0.4); }
+  100% { background: rgba(255,255,255,0.1); }
+}
+
+/* Responsive */
+@media(max-width: 768px) {
+  .juice-lab {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .controls {
+    max-width: 100%;
+  }
+
+  .glass {
+    width: 180px;
+    height: 320px;
+  }
+}
+    </style>
+<div class="topbar">
+    📍 Delivering to: <span id="location-text">Gulshan, Karachi</span> | <a style="cursor: pointer;" onclick="showLocationPopup()">Change Location</a>
+  </div>
+
+ <!-- Add FontAwesome CDN for icons -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
+<nav>
+  <div class="logo">
+   <a href="index.html">
+      <img src="images/logo/smothifylogo.png" alt="Smoothify Logo" style="height: 50px; width: 180px;">
+   </a>
+  </div>
+
+  <!-- Hamburger -->
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="nav-links" id="navLinks">
+    <a href="dashboard.html">Home</a>
+    <a href="menu2.html">Menu</a>
+    <a href="about 2.html">About</a>
+    <a href="specials 2.html">Specials</a>
+    <a href="contact 2.html">Contact</a>
+    <a href="Fruit-glass-enhanced 2.html">Fruit Glass</a>
+    <a href="sipnscore 2.html">Sip & Score</a>
+
+    <div class="account-dropdown">
+      <a href="#"><i class="fas fa-user"></i> Account ▾</a>
+      <div class="account-dropdown-content">
+       <a href="logout.html">Logout</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<div class="location-popup" id="locationPopup">
+  <div class="popup-header">
+    <span>Change Your Location</span>
+    <button class="close-btn" onclick="closeLocationPopup()">&times;</button>
+  </div>
+  <input type="text" id="locationInput" placeholder="Select location" readonly onclick="toggleLocationList()" />
+  <div class="location-list" id="locationList">
+    <div onclick="chooseLocation('Gulshan, Karachi')">Gulshan, Karachi</div>
+    <div onclick="chooseLocation('Clifton, Karachi')">Clifton, Karachi</div>
+    <div onclick="chooseLocation('DHA, Karachi')">DHA, Karachi</div>
+    <div onclick="chooseLocation('Bahadurabad, Karachi')">Bahadurabad, Karachi</div>
+    <div onclick="chooseLocation('Nazimabad, Karachi')">Nazimabad, Karachi</div>
+    <div onclick="chooseLocation('PECHS, Karachi')">PECHS, Karachi</div>
+    <div onclick="chooseLocation('North Nazimabad, Karachi')">North Nazimabad, Karachi</div>
+    <div onclick="chooseLocation('Model Colony, Karachi')">Model Colony, Karachi</div>
+    <div onclick="chooseLocation('Korangi, Karachi')">Korangi, Karachi</div>
+    <div onclick="chooseLocation('Malir, Karachi')">Malir, Karachi</div>
+    <div onclick="chooseLocation('Landhi, Karachi')">Landhi, Karachi</div>
+    <div onclick="chooseLocation('Saddar, Karachi')">Saddar, Karachi</div>
+    <div onclick="chooseLocation('Gulberg, Karachi')">Gulberg, Karachi</div>
+    <div onclick="chooseLocation('Gulistan-e-Jauhar, Karachi')">Gulistan-e-Jauhar, Karachi</div>
+    <div onclick="chooseLocation('Surjani Town, Karachi')">Surjani Town, Karachi</div>
+    <div onclick="chooseLocation('New Karachi')">New Karachi</div>
+    <div onclick="chooseLocation('Liaquatabad, Karachi')">Liaquatabad, Karachi</div>
+    <div onclick="chooseLocation('Federal B Area, Karachi')">Federal B Area, Karachi</div>
+    <div onclick="chooseLocation('Garden, Karachi')">Garden, Karachi</div>
+    <div onclick="chooseLocation('Shah Faisal Colony, Karachi')">Shah Faisal Colony, Karachi</div>
+    <div onclick="chooseLocation('Karimabad, Karachi')">Karimabad, Karachi</div>
+  </div>
+  <input type="text" id="addressInput" placeholder="Enter full delivery address" />
+  <input type="text" id="contactInput" placeholder="Enter contact number" />
+  <a style="color: white ; cursor: pointer;;" onclick="saveLocation()">Save ></a></button>
+</div>
+<br><br>
+<br>
+<br>
+<br>
+
+
+<section class="juice-faq">
+  <style>
+    .juice-faq {
+      background: linear-gradient(135deg, #ffe5f1, #fff3b0);
+      padding: 50px 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .juice-faq .faq-container {
+      max-width: 700px;
+      width: 100%;
+    }
+    .faq-box {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
+      overflow: hidden;
+      transition: all .3s ease;
+    }
+    .faq-box button {
+      width: 100%;
+      padding: 18px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      border: none;
+      background: linear-gradient(135deg, #ffda77, #ff4d6d);
+      color: #fff;
+      cursor: pointer;
+      text-align: left;
+      position: relative;
+      transition: background .3s ease;
+    }
+    .faq-box button:hover {
+      opacity: 0.95;
+    }
+    .faq-box button::after {
+      content: "▾";
+      position: absolute;
+      right: 20px;
+      font-size: 18px;
+      transition: transform .3s ease;
+    }
+    .faq-box.open button::after {
+      transform: rotate(180deg);
+    }
+    .faq-box .answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s ease, padding .3s ease, opacity .3s ease;
+      padding: 0 20px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #444;
+      opacity: 0;
+      background: #fff;
+    }
+    .faq-box.open .answer {
+      max-height: 300px;
+      padding: 18px 20px;
+      opacity: 1;
+    }
+  </style>
+
+  <div class="faq-container">
+    <!-- FAQ 1 -->
+    <div class="faq-box">
+      <button>What is the Juice Builder? 🍹</button>
+      <div class="answer">
+        The Juice Builder lets you create your own custom drink. Choose fresh fruits, select a base like water or milk, and press <b>Mix</b>. You can add toppings and restart anytime with <b>Clear</b>.
+      </div>
+    </div>
+
+    <!-- FAQ 2 -->
+    <div class="faq-box">
+      <button>Can I add toppings? 🍓</button>
+      <div class="answer">
+        Yes! You can add extras like chocochips, nuts, or berries to make your drink unique and more flavorful.
+      </div>
+    </div>
+
+    <!-- FAQ 3 -->
+    <div class="faq-box">
+      <button>How do I reset my drink? 🔄</button>
+      <div class="answer">
+        Simply press the <b>Clear</b> button. It will remove all your selected fruits, base, and toppings so you can start fresh.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll(".faq-box button").forEach(btn => {
+      btn.addEventListener("click", function () {
+        this.parentElement.classList.toggle("open");
+      });
+    });
+  </script>
+</section>
+
+<!-- Fruit Juice Glass Section -->
+<section class="juice-lab">
+  <div class="glass-area">
+    <div class="glass">
+      <div class="juice"></div>
+      <div class="toppings-layer"></div>
+      <div class="shine"></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <h2>🍹 Build Your Magical Juice</h2>
+
+    <!-- Fruits -->
+    <div class="control-block">
+      <h3>Fruits</h3>
+      <div class="options fruits">
+        <button data-fruit="strawberry" data-color="#ff4d6d">🍓 Strawberry</button>
+        <button data-fruit="orange" data-color="#ffa500">🍊 Orange</button>
+        <button data-fruit="banana" data-color="#ffe135">🍌 Banana</button>
+        <button data-fruit="blueberry" data-color="#4f86f7">🫐 Blueberry</button>
+        <button data-fruit="grape" data-color="#6f2da8">🍇 Grape</button>
+        <button data-fruit="kiwi" data-color="#76b852">🥝 Kiwi</button>
+        <button data-fruit="apple" data-color="#ff0800">🍎 Apple</button>
+        <button data-fruit="mango" data-color="#ffc324">🥭 Mango</button>
+      </div>
+    </div>
+
+    <!-- Base -->
+    <div class="control-block">
+      <h3>Base</h3>
+      <div class="options base">
+        <button data-base="milk" data-color="#fffacd">🥛 Milk</button>
+        <button data-base="water" data-color="#cceeff">💧 Water</button>
+        <button data-base="soda" data-color="#e0ffff">🥤 Soda</button>
+      </div>
+    </div>
+
+    <!-- Toppings -->
+    <div class="control-block">
+      <h3>Toppings</h3>
+      <div class="options toppings">
+        <button data-topping="choco">🍫 Choco Chips</button>
+        <button data-topping="nuts">🥜 Nuts</button>
+        <button data-topping="sprinkles">✨ Sprinkles</button>
+        <button data-topping="cream">🍦 Cream</button>
+        <button data-topping="berries">🍒 Berries</button>
+        <button data-topping="mint">🌿 Mint</button>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button id="mixBtn">🔮 Mix</button>
+      <button id="clearBtn">🧹 Clear</button>
+    </div>
+  </div>
+   
+</section>
+
+
+
+  <!-- Floating Cart Button -->
+<button class="cart-btn" onclick="toggleCart()">🛒</button>
+
+<!-- Sidebar Cart -->
+<div id="cartSidebar" class="cart-sidebar">
+  <div class="cart-header">
+    Your Cart
+    <button onclick="closeCart()">✖</button>
+  </div>
+
+  <!-- Cart Items -->
+  <div id="cartItems" class="cart-items"></div>
+
+  <!-- Footer -->
+  <div class="cart-footer">
+    <span>Total: <span id="total-price">0 PKR</span></span>
+    <button class="checkout-btn" onclick="placeOrder()">Place Order</button>
+  </div>
+</div>
+<script>
+const juice = document.querySelector(".juice");
+const toppingsLayer = document.querySelector(".toppings-layer");
+const mixBtn = document.getElementById("mixBtn");
+const clearBtn = document.getElementById("clearBtn");
+
+let selectedColors = [];
+
+// Fruit selection
+document.querySelectorAll(".fruits button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    selectedColors.push(btn.dataset.color);
+    updateJuice();
+  });
+});
+
+// Base selection
+document.querySelectorAll(".base button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    selectedColors.push(btn.dataset.color);
+    updateJuice();
+  });
+});
+
+// Update juice gradient
+function updateJuice() {
+  if (selectedColors.length > 0) {
+    juice.style.height = "100%";
+    juice.style.background = `linear-gradient(to top, ${selectedColors.join(",")})`;
+  }
+}
+
+// Mix Button
+mixBtn.addEventListener("click", () => {
+  if (selectedColors.length === 0) return;
+
+  // Average blended color
+  let blended = blendColors(selectedColors);
+  juice.style.background = blended;
+
+  // Shine animation
+  document.querySelector(".shine").classList.add("mix-shine");
+  setTimeout(() => {
+    document.querySelector(".shine").classList.remove("mix-shine");
+  }, 1500);
+});
+
+// Clear Button
+clearBtn.addEventListener("click", () => {
+  selectedColors = [];
+  juice.style.height = "0";
+  juice.style.background = "transparent";
+  toppingsLayer.innerHTML = "";
+});
+
+// Add toppings
+document.querySelectorAll(".toppings button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    let emoji = btn.textContent.split(" ")[0];
+    let topping = document.createElement("div");
+    topping.classList.add("topping-item");
+    topping.textContent = emoji;
+    topping.style.left = Math.random() * 150 + "px";
+    toppingsLayer.appendChild(topping);
+
+    setTimeout(() => topping.remove(), 2000);
+  });
+});
+
+// Blend colors utility
+function blendColors(colors) {
+  let r = 0, g = 0, b = 0;
+  colors.forEach(hex => {
+    let bigint = parseInt(hex.slice(1), 16);
+    r += (bigint >> 16) & 255;
+    g += (bigint >> 8) & 255;
+    b += bigint & 255;
+  });
+  r = Math.floor(r / colors.length);
+  g = Math.floor(g / colors.length);
+  b = Math.floor(b / colors.length);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+</script>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- FOOTER -->
+<footer class="cafe-footer">
+  <!-- Wave Shape -->
+  <div class="footer-wave">
+    <svg viewBox="0 0 500 150" preserveAspectRatio="none">
+      <path d="M0.00,49.98 C150.00,150.00 350.00,-50.00 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" 
+            style="stroke: none; fill: #ffda47;"></path>
+    </svg>
+  </div>
+
+  <div class="footer-container">
+    <!-- Left -->
+    <div class="footer-about">
+      <h2>☕ Smoothify</h2>
+      <p>Brewing smiles one cup at a time! Come for the coffee, stay for the love.</p>
+    </div>
+
+    <!-- Middle -->
+    <div class="footer-links">
+      <h3>🍩 Quick Links</h3>
+      <ul>
+        <li><a href="dashboard.html">🏠 Home</a></li>
+        <li><a href="menu2.html">📜 Menu</a></li>
+        <li><a href="Fruit-glass-enhanced 2.html">🎮 Fruit Glass Game</a></li>
+        <li><a href="contact 2.html">📞 Contact</a></li>
+        <li><a href="specials 2.html"> 🦐Specials</a></li>
+        <li><a href="sipnscore 2.html">👌SipnScore</a></li>
+      </ul>
+    </div>
+
+    <!-- Right -->
+    <div class="footer-social">
+      <h3>🌸 Connect</h3>
+      <div class="social-icons">
+  <!-- Instagram Login -->
+  <a href="https://www.instagram.com/accounts/login/" target="_blank">
+    <i class="fab fa-instagram"></i>
+  </a>
+
+  <!-- Twitter (X) Login -->
+  <a href="https://twitter.com/login" target="_blank">
+    <i class="fab fa-twitter"></i>
+  </a>
+
+  <!-- Facebook Login -->
+  <a href="https://www.facebook.com/login/" target="_blank">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+
+  <!-- Google Maps Location (Example) -->
+  <a href="https://www.google.com/maps" target="_blank">
+    <i class="fas fa-map-marker-alt"></i>
+  </a>
+</div>
+
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025  Smoothify </p>
+  </div>
+</footer>
+
+ <script src="script.js"></script>
+ <script src="script2.js"></script>   
+</body>
+</html>

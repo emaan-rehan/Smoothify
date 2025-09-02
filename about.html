@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smoothify</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
+  </head>
+  <body>
+<div class="topbar">
+    📍 Delivering to: <span id="location-text">Gulshan, Karachi</span> | <a style="cursor: pointer;" onclick="showLocationPopup()">Change Location</a>
+  </div>
+  
+ <!-- Add FontAwesome CDN for icons -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
+<nav>
+  <div class="logo">
+   <a href="index.html">
+      <img src="images/logo/smothifylogo.png" alt="Smoothify Logo" style="height: 50px; width: 180px;">
+   </a>
+  </div>
+
+  <!-- Hamburger -->
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="about.html">About</a>
+    <a href="specials.html">Specials</a>
+    <a href="contact.html">Contact</a>
+    <a href="Fruit-glass-enhanced.html">Fruit Glass</a>
+    <a href="sipnscore.html">Sip & Score</a>
+
+    <div class="account-dropdown">
+      <a href="#"><i class="fas fa-user"></i> Account ▾</a>
+      <div class="account-dropdown-content">
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<div class="location-popup" id="locationPopup">
+  <div class="popup-header">
+    <span>Change Your Location</span>
+    <button class="close-btn" onclick="closeLocationPopup()">&times;</button>
+  </div>
+  <input type="text" id="locationInput" placeholder="Select location" readonly onclick="toggleLocationList()" />
+  <div class="location-list" id="locationList">
+    <div onclick="chooseLocation('Gulshan, Karachi')">Gulshan, Karachi</div>
+    <div onclick="chooseLocation('Clifton, Karachi')">Clifton, Karachi</div>
+    <div onclick="chooseLocation('DHA, Karachi')">DHA, Karachi</div>
+    <div onclick="chooseLocation('Bahadurabad, Karachi')">Bahadurabad, Karachi</div>
+    <div onclick="chooseLocation('Nazimabad, Karachi')">Nazimabad, Karachi</div>
+    <div onclick="chooseLocation('PECHS, Karachi')">PECHS, Karachi</div>
+    <div onclick="chooseLocation('North Nazimabad, Karachi')">North Nazimabad, Karachi</div>
+    <div onclick="chooseLocation('Model Colony, Karachi')">Model Colony, Karachi</div>
+    <div onclick="chooseLocation('Korangi, Karachi')">Korangi, Karachi</div>
+    <div onclick="chooseLocation('Malir, Karachi')">Malir, Karachi</div>
+    <div onclick="chooseLocation('Landhi, Karachi')">Landhi, Karachi</div>
+    <div onclick="chooseLocation('Saddar, Karachi')">Saddar, Karachi</div>
+    <div onclick="chooseLocation('Gulberg, Karachi')">Gulberg, Karachi</div>
+    <div onclick="chooseLocation('Gulistan-e-Jauhar, Karachi')">Gulistan-e-Jauhar, Karachi</div>
+    <div onclick="chooseLocation('Surjani Town, Karachi')">Surjani Town, Karachi</div>
+    <div onclick="chooseLocation('New Karachi')">New Karachi</div>
+    <div onclick="chooseLocation('Liaquatabad, Karachi')">Liaquatabad, Karachi</div>
+    <div onclick="chooseLocation('Federal B Area, Karachi')">Federal B Area, Karachi</div>
+    <div onclick="chooseLocation('Garden, Karachi')">Garden, Karachi</div>
+    <div onclick="chooseLocation('Shah Faisal Colony, Karachi')">Shah Faisal Colony, Karachi</div>
+    <div onclick="chooseLocation('Karimabad, Karachi')">Karimabad, Karachi</div>
+  </div>
+  <input type="text" id="addressInput" placeholder="Enter full delivery address" />
+  <input type="text" id="contactInput" placeholder="Enter contact number" />
+   <a style="color: white ; cursor: pointer;;" onclick="saveLocation()">Save ></a></button>
+</div>
+
+
+<!-- Chat Blur Overlay -->
+<div id="chat-blur-overlay" onclick="toggleChat()"></div>
+
+<!-- Floating Cup Icon -->
+<div id="chatbot-icon" onclick="toggleChat()">☕</div>
+
+<!-- Chatbox Window -->
+<div id="chatbox" class="hidden">
+  <style>
+    /* Scrollable chat body */
+    #chatbox .chat-body {
+      max-height: 300px; /* adjust height as needed */
+      overflow-y: auto;
+      padding: 10px;
+      scrollbar-width: thin;
+      scrollbar-color: #f7aecb #f0f0f0;
+    }
+
+    /* Webkit scrollbar */
+    #chatbox .chat-body::-webkit-scrollbar {
+      width: 6px;
+    }
+    #chatbox .chat-body::-webkit-scrollbar-track {
+      background: #f0f0f0;
+      border-radius: 3px;
+    }
+    #chatbox .chat-body::-webkit-scrollbar-thumb {
+      background: #ff4d6d;
+      border-radius: 3px;
+    }
+  </style>
+
+  <div class="chat-header">
+    Smoothify AI
+    <span onclick="toggleChat()" style="cursor:pointer;">&times;</span>
+  </div>
+
+  <div id="chatBody" class="chat-body">
+    <div class="bot">Hey there! How are you feeling today?</div>
+  </div>
+
+  <div class="chat-input">
+    <input id="userInput" type="text" placeholder="Type your mood..." onkeydown="handleKey(event)" />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+
+  <!-- Hero Section -->
+  <section class="about-hero">
+    <div class="hero-content">
+      <h1>Welcome to Smoothify Café</h1>
+      <p>Where every sip is a smile, and every visit feels like home. 🌸</p>
+    </div>
+  </section>
+
+  <!-- Our Story -->
+  <section class="story-section">
+    <h2>Our Story</h2>
+    <p>
+      Smoothify Café began with a dream: to blend vibrant flavors, warm vibes, and community spirit under one roof.  
+      From our very first cup, we wanted to create a space where coffee lovers, smoothie fans, and foodies could gather, share, and laugh together.  
+      Our bright yellow and pink theme reflects what we stand for – positivity, creativity, and joy.
+    </p>
+    <p>
+      Over the years, Smoothify has grown into more than a café – it’s a hub for ideas, friendships, and celebrations.  
+      Whether you’re here to study, relax, or treat yourself, our café is designed to make your day brighter. 💛💖
+    </p>
+  </section>
+
+  <!-- Our Values -->
+  <section class="values-section">
+    <h2>Our Values</h2>
+    <div class="values-grid">
+      <div class="value-card">
+        <h3>🌱 Freshness</h3>
+        <p>Only the finest ingredients – because you deserve the best in every sip & bite.</p>
+      </div>
+      <div class="value-card">
+        <h3>💛 Community</h3>
+        <p>A place to connect, share stories, and make new friends every day.</p>
+      </div>
+      <div class="value-card">
+        <h3>🎨 Creativity</h3>
+        <p>From colorful smoothies to bold coffee blends – we love experimenting.</p>
+      </div>
+      <div class="value-card">
+        <h3>🌸 Happiness</h3>
+        <p>Every detail, from our drinks to our décor, is crafted to make you smile.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Meet the Team -->
+  <section class="team-section">
+    <h2>Meet Our Team</h2>
+    <div class="team-cards">
+      <div class="team-card">
+        <h3>Rumaisa</h3>
+        <p>Owner & Creative Head 🌟<br>
+        Rumaisa brings the magic of design and creativity to Smoothify.  
+        With a passion for aesthetic details, she ensures that every corner of the café feels cozy and stylish.</p>
+      </div>
+      <div class="team-card">
+        <h3>Eman</h3>
+        <p>Manager & Operations Lead ⚡<br>
+        Eman is the heart of the café’s operations.  
+        From managing daily flows to perfecting recipes, she ensures that every guest leaves with joy.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="timeline-section">
+    <h2>Our Journey</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <h4>2020</h4>
+        <p>Smoothify Café was born with a vision of blending happiness with flavors.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>2022</h4>
+        <p>Expanded our menu to smoothies, desserts, and brunch specials.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>2024</h4>
+        <p>Became a hub for community meetups and student study sessions.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>2025</h4>
+        <p>Celebrating new milestones with you – our Smoothify family. 💕</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials-section">
+    <h2>What Our Guests Say</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial">
+        <p>“Bright colors, brighter smiles! Smoothify is my happy place after work.”</p>
+        <h4>- Ayesha</h4>
+      </div>
+      <div class="testimonial">
+        <p>“Best smoothies in town! And the atmosphere is unmatched.”</p>
+        <h4>- Hamza</h4>
+      </div>
+      <div class="testimonial">
+        <p>“I love working from Smoothify. It feels inspiring every single time.”</p>
+        <h4>- Sara</h4>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <button class="faq-question">What makes Smoothify unique? 🌟</button>
+        <div class="faq-answer">Our mix of vibrant pastel aesthetics, fresh ingredients, and community-driven vibes sets us apart.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Do you offer vegan options? 🥑</button>
+        <div class="faq-answer">Yes! We have vegan smoothies, plant-based milks, and plenty of fresh snacks.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Can I host an event here? 🎉</button>
+        <div class="faq-answer">Absolutely! We love hosting birthdays, book clubs, and meetups. Just contact our team.</div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- FOOTER -->
+<footer class="cafe-footer">
+  <!-- Wave Shape -->
+  <div class="footer-wave">
+    <svg viewBox="0 0 500 150" preserveAspectRatio="none">
+      <path d="M0.00,49.98 C150.00,150.00 350.00,-50.00 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" 
+            style="stroke: none; fill: #ffda47;"></path>
+    </svg>
+  </div>
+
+  <div class="footer-container">
+    <!-- Left -->
+    <div class="footer-about">
+      <h2>☕ Smoothify</h2>
+      <p>Brewing smiles one cup at a time! Come for the coffee, stay for the love.</p>
+    </div>
+
+    <!-- Middle -->
+    <div class="footer-links">
+      <h3>🍩 Quick Links</h3>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="menu.html">📜 Menu</a></li>
+        <li><a href="Fruit-glass-enhanced.html">🎮 Fruit Glass Game</a></li>
+        <li><a href="specials.html"> 🦐Specials</a></li>
+        <li><a href="sipnscore.html">👌SipnScore</a></li>
+      </ul>
+    </div>
+
+    <!-- Right -->
+    <div class="footer-social">
+      <h3>🌸 Connect</h3>
+      <div class="social-icons">
+  <!-- Instagram Login -->
+  <a href="https://www.instagram.com/accounts/login/" target="_blank">
+    <i class="fab fa-instagram"></i>
+  </a>
+
+  <!-- Twitter (X) Login -->
+  <a href="https://twitter.com/login" target="_blank">
+    <i class="fab fa-twitter"></i>
+  </a>
+
+  <!-- Facebook Login -->
+  <a href="https://www.facebook.com/login/" target="_blank">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+
+  <!-- Google Maps Location (Example) -->
+  <a href="https://www.google.com/maps" target="_blank">
+    <i class="fas fa-map-marker-alt"></i>
+  </a>
+</div>
+
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025  Smoothify </p>
+  </div>
+</footer>
+
+
+ <script src="script.js"></script>   
+ <script src="script2.js"></script>
+</body>
+</html>

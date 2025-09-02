@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smoothify</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style2.css">
+
+  </head>
+  <body>
+    <style>
+      nav{
+        background: #FFD93D;
+      }
+    </style>
+<div class="topbar">
+    📍 Delivering to: <span id="location-text">Gulshan, Karachi</span> | <a style="cursor: pointer;" onclick="showLocationPopup()">Change Location</a>
+  </div>
+
+ <!-- Add FontAwesome CDN for icons -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+<nav>
+  <div class="logo">
+   <a href="index.html">
+      <img src="images/logo/smothifylogo.png" alt="Smoothify Logo" style="height: 50px; width: 180px;">
+   </a>
+  </div>
+
+  <!-- Hamburger -->
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="nav-links" id="navLinks">
+    <a href="dashboard.html">Home</a>
+    <a href="menu2.html">Menu</a>
+    <a href="about 2.html">About</a>
+    <a href="specials 2.html">Specials</a>
+    <a href="contact 2.html">Contact</a>
+    <a href="Fruit-glass-enhanced 2.html">Fruit Glass</a>
+    <a href="sipnscore 2.html">Sip & Score</a>
+
+    <div class="account-dropdown">
+      <a href="#"><i class="fas fa-user"></i> Account ▾</a>
+      <div class="account-dropdown-content">
+       <a href="logout.html">Logout</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="location-popup" id="locationPopup">
+  <div class="popup-header">
+    <span>Change Your Location</span>
+    <button class="close-btn" onclick="closeLocationPopup()">&times;</button>
+  </div>
+  <input type="text" id="locationInput" placeholder="Select location" readonly onclick="toggleLocationList()" />
+  <div class="location-list" id="locationList">
+    <div onclick="chooseLocation('Gulshan, Karachi')">Gulshan, Karachi</div>
+    <div onclick="chooseLocation('Clifton, Karachi')">Clifton, Karachi</div>
+    <div onclick="chooseLocation('DHA, Karachi')">DHA, Karachi</div>
+    <div onclick="chooseLocation('Bahadurabad, Karachi')">Bahadurabad, Karachi</div>
+    <div onclick="chooseLocation('Nazimabad, Karachi')">Nazimabad, Karachi</div>
+    <div onclick="chooseLocation('PECHS, Karachi')">PECHS, Karachi</div>
+    <div onclick="chooseLocation('North Nazimabad, Karachi')">North Nazimabad, Karachi</div>
+    <div onclick="chooseLocation('Model Colony, Karachi')">Model Colony, Karachi</div>
+    <div onclick="chooseLocation('Korangi, Karachi')">Korangi, Karachi</div>
+    <div onclick="chooseLocation('Malir, Karachi')">Malir, Karachi</div>
+    <div onclick="chooseLocation('Landhi, Karachi')">Landhi, Karachi</div>
+    <div onclick="chooseLocation('Saddar, Karachi')">Saddar, Karachi</div>
+    <div onclick="chooseLocation('Gulberg, Karachi')">Gulberg, Karachi</div>
+    <div onclick="chooseLocation('Gulistan-e-Jauhar, Karachi')">Gulistan-e-Jauhar, Karachi</div>
+    <div onclick="chooseLocation('Surjani Town, Karachi')">Surjani Town, Karachi</div>
+    <div onclick="chooseLocation('New Karachi')">New Karachi</div>
+    <div onclick="chooseLocation('Liaquatabad, Karachi')">Liaquatabad, Karachi</div>
+    <div onclick="chooseLocation('Federal B Area, Karachi')">Federal B Area, Karachi</div>
+    <div onclick="chooseLocation('Garden, Karachi')">Garden, Karachi</div>
+    <div onclick="chooseLocation('Shah Faisal Colony, Karachi')">Shah Faisal Colony, Karachi</div>
+    <div onclick="chooseLocation('Karimabad, Karachi')">Karimabad, Karachi</div>
+  </div>
+  <input type="text" id="addressInput" placeholder="Enter full delivery address" />
+  <input type="text" id="contactInput" placeholder="Enter contact number" />
+ <a style="color: white ; cursor: pointer;;" onclick="saveLocation()">Save ></a></button>
+</div>
+<br><br>
+<br>
+<br>
+<br>
+
+<!-- Chat Blur Overlay -->
+<div id="chat-blur-overlay" onclick="toggleChat()"></div>
+
+<!-- Floating Cup Icon -->
+<div id="chatbot-icon" onclick="toggleChat()">☕</div>
+
+<!-- Chatbox Window -->
+<div id="chatbox" class="hidden">
+  <style>
+    /* Scrollable chat body */
+    #chatbox .chat-body {
+      max-height: 300px; /* adjust height as needed */
+      overflow-y: auto;
+      padding: 10px;
+      scrollbar-width: thin;
+      scrollbar-color: #f7aecb #f0f0f0;
+    }
+
+    /* Webkit scrollbar */
+    #chatbox .chat-body::-webkit-scrollbar {
+      width: 6px;
+    }
+    #chatbox .chat-body::-webkit-scrollbar-track {
+      background: #f0f0f0;
+      border-radius: 3px;
+    }
+    #chatbox .chat-body::-webkit-scrollbar-thumb {
+      background: #ff4d6d;
+      border-radius: 3px;
+    }
+  </style>
+
+  <div class="chat-header">
+    Smoothify AI
+    <span onclick="toggleChat()" style="cursor:pointer;">&times;</span>
+  </div>
+
+  <div id="chatBody" class="chat-body">
+    <div class="bot">Hey there! How are you feeling today?</div>
+  </div>
+
+  <div class="chat-input">
+    <input id="userInput" type="text" placeholder="Type your mood..." onkeydown="handleKey(event)" />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+
+  <!-- scroll bar -->
+    <div class="section-bar">
+    <a href="#coffee" class="section-item">
+      <img src="./images/bar/cofee.png" alt="Caffeine Fix" />
+      <span>Caffeine Fix</span>
+    </a>
+    <a href="#smoothies" class="section-item">
+      <img src="./images/bar/smothie.png" alt="Smoothies" />
+      <span>Smoothies</span>
+    </a>
+    <a href="#snacks" class="section-item">
+      <img src="./images/bar/snacks.png" alt="Snack Attack" />
+      <span>Snack Attack</span>
+    </a>
+    <a href="#sweetooth" class="section-item">
+      <img src="./images/bar/donut.png" alt="Sweet Tooth" />
+      <span>Sweet Tooth</span>
+    </a>
+    <a href="#tinybites" class="section-item">
+      <img src="./images/bar/fries.png" alt="Tiny Bites" />
+      <span>Tiny Bites</span>
+    </a>
+    <a href="#mocktails" class="section-item">
+      <img src="./images/bar/moctails.png" alt="Mocktails" />
+      <span>Mocktails</span>
+    </a>
+    <a href="#gelato" class="section-item">
+      <img src="./images/bar/iccream.png" alt="Gelato" />
+      <span>Gelato</span>
+    </a>
+    <a href="#brunch" class="section-item">
+      <img src="./images/bar/noodel.png" alt="Brunch Baddies" />
+      <span>Brunch Baddies</span>
+    </a>
+  </div>
+
+ <section class="coffee-section" id="coffee">
+  <div class="card-container">
+    <!-- Card 1 -->
+   <div class="coffee-card" onclick="openCard(0)">
+  <img src="./images/coffee/iced vanilla latte.png" alt="Iced Vanilla Latte" />
+  <div class="coffee-info">
+    <h3>Iced Vanilla Latte</h3>
+    <p>Chilled espresso with vanilla & milk</p>
+    <span>Rs. 450</span>
+  </div>
+</div>
+<!-- card 2 -->
+ <div class="coffee-card" onclick="openCard(1)">
+    <img src="./images/coffee/caramel.png" alt="Caramel Macchiato" />
+    <div class="coffee-info">
+      <h3>Caramel Macchiato</h3>
+      <p>Caramel swirl with steamed milk & espresso</p>
+      <span>Rs. 470</span>
+    </div>
+  </div>
+
+  <!-- Card 3 -->
+  <div class="coffee-card" onclick="openCard(2)">
+    <img src="./images/coffee/chai.png" alt="Chai" />
+    <div class="coffee-info">
+      <h3>Chai</h3>
+      <p>Desi masala chai with a cozy twist</p>
+      <span>Rs. 220</span>
+    </div>
+  </div>
+
+  <!-- Card 4 -->
+  <div class="coffee-card" onclick="openCard(3)">
+    <img src="./images/coffee/hazelnut.png" alt="Hazelnut" />
+    <div class="coffee-info">
+      <h3>Hazelnut Mocha Hug</h3>
+      <p>Rich mocha with creamy hazelnut notes</p>
+      <span>Rs. 490</span>
+    </div>
+  </div>
+
+  <!-- Card 5 -->
+  <div class="coffee-card" onclick="openCard(4)">
+    <img src="./images/coffee/cappucino.png" alt="Cappuccino" />
+    <div class="coffee-info">
+      <h3>Classic Cappuccino</h3>
+      <p>Foamy & bold — the Italian favorite</p>
+      <span>Rs. 360</span>
+    </div>
+  </div>
+
+  <!-- Card 6 -->
+  <div class="coffee-card" onclick="openCard(5)">
+    <img src="./images/coffee/matcha.png" alt="Matcha" />
+    <div class="coffee-info">
+      <h3>Matcha Mood</h3>
+      <p>Earthy Japanese green tea with milk</p>
+      <span>Rs. 490</span>
+    </div>
+  </div>
+
+  <!-- Card 7 -->
+  <div class="coffee-card" onclick="openCard(6)">
+    <img src="./images/coffee/espresso shot.png" alt="Espresso Shots" />
+    <div class="coffee-info">
+      <h3>Espresso Shots</h3>
+      <p>Strong & straight to the point ☕</p>
+      <span>Rs. 300</span>
+    </div>
+  </div>
+
+  <!-- Card 8 -->
+  <div class="coffee-card" onclick="openCard(7)">
+    <img src="./images/coffee/cocoa.png" alt="Cozy Cocoa" />
+    <div class="coffee-info">
+      <h3>Cozy Cocoa</h3>
+      <p>Hot chocolate hug for your soul</p>
+      <span>Rs. 350</span>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- divider -->
+<section id="smoothies" class="deals-banner" style="background-image: url('./images/background/fuirts.jpg'); background-size: cover; background-position: center;">
+  <div class="text-center mb-5">
+    <h2 class="display-5 fw-bold" style="color: #ff63a5; font-family: 'Fredoka', sans-serif; font-weight: 700;">
+      SMOOTHIES
+    </h2>
+    <p class="lead" style="color: hsl(284, 100%, 65%); font-family: 'Poppins', sans-serif; font-weight: 300;">
+      Cool drinks for hotter drama
+    </p>
+  </div>
+</section>
+
+<!-- smoothies -->
+<section class="smoothie-section" id="smoothies" >
+  <div class="text-center mb-5">
+  </div>
+
+  <div class="card-container">
+   <div class="coffee-card" onclick="openCard(8)">
+    <img src="./images/shakes/coldbre.png" alt="Cold Brew Crush" />
+    <div class="coffee-info">
+      <h3>Cold Brew Crush</h3>
+      <p>Strong cold brew blended with creamy ice</p>
+      <span>Rs. 480</span>
+    </div>
+  </div>
+
+  <!-- Card 2 -->
+  <div class="coffee-card" onclick="openCard(9)">
+    <img src="./images/shakes/oreo.png" alt="Oreo Shake It Up" />
+    <div class="coffee-info">
+      <h3>Oreo Shake It Up</h3>
+      <p>Crunchy Oreos blended in creamy vanilla</p>
+      <span>Rs. 430</span>
+    </div>
+  </div>
+
+  <!-- Card 3 -->
+  <div class="coffee-card" onclick="openCard(10)">
+    <img src="./images/shakes/mango.png" alt="Mango Tango Smoothie" />
+    <div class="coffee-info">
+      <h3>Mango Tango Smoothie</h3>
+      <p>Fresh mangoes with a tropical chill</p>
+      <span>Rs. 390</span>
+    </div>
+  </div>
+
+  <!-- Card 4 -->
+  <div class="coffee-card" onclick="openCard(11)">
+    <img src="./images/shakes/strabery.png" alt="Strawberry Baby Shake" />
+    <div class="coffee-info">
+      <h3>Strawberry Baby Shake</h3>
+      <p>Sweet berries & milk blended perfectly</p>
+      <span>Rs. 410</span>
+    </div>
+  </div>
+
+  <!-- Card 5 -->
+  <div class="coffee-card" onclick="openCard(12)">
+    <img src="./images/shakes/boba.png" alt="Boba Baddie" />
+    <div class="coffee-info">
+      <h3>Boba Baddie</h3>
+      <p>Chewy tapioca pearls with brown sugar milk</p>
+      <span>Rs. 520</span>
+    </div>
+  </div>
+
+  <!-- Card 6 -->
+  <div class="coffee-card" onclick="openCard(13)">
+    <img src="./images/shakes/blueberry.png" alt="Blueberry Yogurt Chill" />
+    <div class="coffee-info">
+      <h3>Blueberry Yogurt Chill</h3>
+      <p>Cool yogurt & tart blueberries blended smooth</p>
+      <span>Rs. 450</span>
+    </div>
+  </div>
+
+  <!-- Card 7 -->
+  <div class="coffee-card" onclick="openCard(14)">
+    <img src="./images/shakes/banana.png" alt="Banana Buzz Frappe" />
+    <div class="coffee-info">
+      <h3>Banana Buzz Frappe</h3>
+      <p>Banana & espresso fusion, energy-loaded</p>
+      <span>Rs. 400</span>
+    </div>
+  </div>
+
+  <!-- Card 8 -->
+  <div class="coffee-card" onclick="openCard(15)">
+    <img src="./images/shakes/chocolate.png" alt="Choco Chip Frostbite" />
+    <div class="coffee-info">
+      <h3>Choco Chip Frostbite</h3>
+      <p>Chocolate chips with icy milkshake delight</p>
+      <span>Rs. 470</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- divider -->
+<section id="snacks" class="deals-banner" style="background-image: url('./images/background/breakfast.jpg'); background-size: cover; background-position: center;">
+  <div class="text-center mb-5">
+    <h2 class="display-5 fw-bold" style="color: #000000; font-family: 'Fredoka', sans-serif; font-weight: 700;">
+      SNACK ATTACK
+    </h2>
+    <p class="lead" style="color: hsl(0, 23%, 37%); font-family: 'Poppins', sans-serif; font-weight: 300;">
+      Real Ones Don't Skip Snacks
+    </p>
+  </div>
+</section>
+
+<!-- Snacks -->
+ <section>
+  <div class="card-container">
+    <div class="coffee-card" onclick="openCard(16)">
+  <img src="./images/snacks/Melty Grilled Cheese.jpg" alt="Melty Grilled Cheese" />
+  <div class="coffee-info">
+    <h3>Melty Grilled Cheese</h3>
+    <p>Cheddar & mozzarella grilled to golden perfection</p>
+    <span>Rs. 450</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(17)">
+  <img src="./images/snacks/chekcn wrap.jpg" alt="Chicken Dynamite Wrap" />
+  <div class="coffee-info">
+    <h3>Chicken Dynamite Wrap</h3>
+    <p>Spicy shredded chicken in a warm tortilla</p>
+    <span>Rs. 580</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(18)">
+  <img src="./images/snacks/club san.jpg" alt="Classic Clubber" />
+  <div class="coffee-info">
+    <h3>Classic Clubber</h3>
+    <p>Triple-decker chicken club with layers of flavor</p>
+    <span>Rs. 600</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(19)">
+  <img src="./images/snacks/paneer.jpg" alt="Spicy Paneer Sandwich" />
+  <div class="coffee-info">
+    <h3>Spicy Paneer Sandwich</h3>
+    <p>Marinated paneer with desi spice kick</p>
+    <span>Rs. 490</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(20)">
+  <img src="./images/snacks/chicken panini.jpg" alt="BBQ Chicken Panini" />
+  <div class="coffee-info">
+    <h3>BBQ Chicken Panini</h3>
+    <p>BBQ chicken with melty cheese in toasted bread</p>
+    <span>Rs. 620</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(21)">
+  <img src="./images/snacks/mayo fires.jpg" alt="Garlic Mayo Fries" />
+  <div class="coffee-info">
+    <h3>Garlic Mayo Fries</h3>
+    <p>Golden fries with creamy garlic mayo drizzle</p>
+    <span>Rs. 380</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(22)">
+  <img src="./images/snacks/cheese balls.jpg" alt="Mac n Cheese Balls" />
+  <div class="coffee-info">
+    <h3>Mac n Cheese Balls</h3>
+    <p>Crispy fried mac n cheese goodness</p>
+    <span>Rs. 520</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(23)">
+  <img src="./images/snacks/nachos.jpg" alt="Nacho Fiesta Crunch" />
+  <div class="coffee-info">
+    <h3>Nacho Fiesta Crunch</h3>
+    <p>Cheesy nachos topped with salsa & jalapeños</p>
+    <span>Rs. 450</span>
+  </div>
+</div>
+  </section>
+  
+  <!-- divider -->
+<section id="sweetooth" class="deals-banner" style=" background-image: url('./images/background/pink.jpg'); ">
+  <div class="text-center mb-5">
+    <h2 class="display-5 fw-bold" style="color: #7f0081; font-family: 'Fredoka', sans-serif; font-weight: 700;">SWEET TOOTH</h2>
+    <p class="lead" style="color: hsl(314, 100%, 82%); font-family: 'Poppins', sans-serif; font-weight: 300;">Dessert therapy is real and we support it
+</p>
+  </div>
+</section>
+
+  <!--Sweet Tooth -->
+  <section>
+  <div class="card-container">
+    <!-- Red Velvet Babygirl Cupcake -->
+<div class="coffee-card" onclick="openCard(24)">
+  <img src="./images/sweet/red vel.jpg" alt="Red Velvet Babygirl Cupcake" />
+  <div class="coffee-info">
+    <h3>Red Velvet Babygirl Cupcake</h3>
+    <p>Fluffy red velvet with cream cheese swirl</p>
+    <span>Rs. 300</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(25)">
+  <img src="./images/sweet/chros.jpg" alt="Churro Bites & Dip" />
+  <div class="coffee-info">
+    <h3>Churro Bites & Dip</h3>
+    <p>Cinnamon sugar churros with warm chocolate dip</p>
+    <span>Rs. 480</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(26)">
+  <img src="./images/sweet/lava.jpg" alt="Nutella Lava Cake" />
+  <div class="coffee-info">
+    <h3>Nutella Lava Cake</h3>
+    <p>Decadent cake with oozing Nutella center</p>
+    <span>Rs. 520</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(27)">
+  <img src="./images/sweet/lotus.jpg" alt="Lotus Cheesecake Baddie" />
+  <div class="coffee-info">
+    <h3>Lotus Cheesecake Baddie</h3>
+    <p>Creamy cheesecake topped with Lotus crunch</p>
+    <span>Rs. 550</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(28)">
+  <img src="./images/sweet/bublle.jpg" alt="Bubble Waffle Bliss" />
+  <div class="coffee-info">
+    <h3>Bubble Waffle Bliss</h3>
+    <p>Fluffy waffle balls with ice cream & toppings</p>
+    <span>Rs. 650</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(29)">
+  <img src="./images/sweet/ciinnamon.jpg" alt="Cinnamon Rollin’" />
+  <div class="coffee-info">
+    <h3>Cinnamon Rollin’</h3>
+    <p>Warm soft rolls with gooey cinnamon glaze</p>
+    <span>Rs. 480</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(30)">
+  <img src="./images/sweet/pancake.jpg" alt="Mini Pancake Stack Attack" />
+  <div class="coffee-info">
+    <h3>Mini Pancake Stack Attack</h3>
+    <p>Mini pancakes stacked high with syrupy love</p>
+    <span>Rs. 400</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(31)">
+  <img src="./images/sweet/brownie.jpg" alt="OG Brownie Mood" />
+  <div class="coffee-info">
+    <h3>OG Brownie Mood</h3>
+    <p>Thick, fudgy brownie for your chocolate cravings</p>
+    <span>Rs. 450</span>
+  </div>
+</div>
+  </section>
+
+  <!-- divider -->
+<section id="tinybites" class="deals-banner" style="background-image: url('./images/background/tinybites.jpg'); background-size: cover; background-position: center; padding: 4rem 2rem;">
+  <div class="text-center mb-5">
+    <h2 class="display-5 fw-bold" style="color: #ffffff; font-family: 'Fredoka', sans-serif; font-weight: 700;">Tiny Bites, Big Mood</h2>
+    <p class="lead" style="color: hsl(64, 100%, 54%); font-family: 'Poppins', sans-serif; font-weight: 300;">The side pieces we’ll never leave on read
+</p>
+  </div>
+  </section>
+
+<!-- tiny bites -->
+ <section>
+  <div class="card-container">
+<!-- Mozzarella Stickzzz -->
+<div class="coffee-card" onclick="openCard(32)">
+  <img src="./images/tinybites/sticks.jpg" alt="Mozzarella Stickzzz" />
+  <div class="coffee-info">
+    <h3>Mozzarella Stickzzz</h3>
+    <p>Golden fried cheese sticks, melty and perfect</p>
+    <span>Rs. 390</span>
+  </div>
+</div>
+
+<!-- Chicken Popcorn -->
+<div class="coffee-card" onclick="openCard(33)">
+  <img src="./images/tinybites/popcorn.jpg" alt="Chicken Popcorn" />
+  <div class="coffee-info">
+    <h3>Chicken Popcorn</h3>
+    <p>Bite-sized crispy chicken bursts</p>
+    <span>Rs. 420</span>
+  </div>
+</div>
+
+<!-- Tornado Twister Fries -->
+<div class="coffee-card" onclick="openCard(34)">
+  <img src="./images/tinybites/tornadofries.jpg" alt="Tornado Twister Fries" />
+  <div class="coffee-info">
+    <h3>Tornado Twister Fries</h3>
+    <p>Swirly fries loaded with flavor</p>
+    <span>Rs. 350</span>
+  </div>
+</div>
+
+<!-- Onion Ring Queen -->
+<div class="coffee-card" onclick="openCard(35)">
+  <img src="./images/tinybites/onionrings.jpg" alt="Onion Ring Queen" />
+  <div class="coffee-info">
+    <h3>Onion Ring Queen</h3>
+    <p>Thick, crunchy, and so royalty</p>
+    <span>Rs. 330</span>
+  </div>
+</div>
+
+<!-- Mini Cheese Sliders -->
+<div class="coffee-card" onclick="openCard(36)">
+  <img src="./images/tinybites/sliders.jpg" alt="Mini Cheese Sliders" />
+  <div class="coffee-info">
+    <h3>Mini Cheese Sliders</h3>
+    <p>Mini buns, cheesy patties, major cuteness</p>
+    <span>Rs. 440</span>
+  </div>
+</div>
+
+<!-- Chicken Wings (Hot Honey / BBQ) -->
+<div class="coffee-card" onclick="openCard(37)">
+  <img src="./images/tinybites/wings.jpg" alt="Chicken Wings" />
+  <div class="coffee-info">
+    <h3>Chicken Wings (Hot Honey / BBQ)</h3>
+    <p>Sticky, spicy, sweet—your pick</p>
+    <span>Rs. 470</span>
+  </div>
+</div>
+
+<!-- Cheese Jalapeño Beef Burger -->
+<div class="coffee-card" onclick="openCard(38)">
+  <img src="./images/tinybites/burger.jpg" alt="Beef Burger" />
+  <div class="coffee-info">
+    <h3>Cheese Jalapeño Beef Burger</h3>
+    <p>Juicy beef, creamy cheese, jalapeño heat</p>
+    <span>Rs. 580</span>
+  </div>
+</div>
+
+<!-- Loaded Fries -->
+<div class="coffee-card" onclick="openCard(39)">
+  <img src="./images/tinybites/fries.jpg" alt="Loaded Fries" />
+  <div class="coffee-info">
+    <h3>Loaded Fries (Cheese + Jalapeños + Sauce)</h3>
+    <p>Drippy, saucy, cheesy goodness</p>
+    <span>Rs. 390</span>
+  </div>
+</div>
+
+  </section>
+
+<!-- divider -->
+<section id="mocktails" class="deals-banner" style="background-image: url('./images/background/moctails\ backgorund.jpg'); background-size: cover; background-position: center; padding: 4rem 2rem;">
+  <div class="text-center mb-5">
+    <h2 class="display-5 fw-bold" style="color: hsl(0, 0%, 100%); font-family: 'Fredoka', sans-serif; font-weight: 700;">ZERO% DRAMA 100% REFRESH</h2>
+    <p class="lead" style="color: hsl(184, 15%, 18%); font-family: 'Poppins', sans-serif; font-weight: 300;">Mocktails with main-character energy
+    </p>
+  </div>
+  </section>
+
+  <!--mocktails-->
+   <section>
+      <div class="card-container">
+  <div class="coffee-card" onclick="openCard(40)">
+  <img src="./images/mocktails/mint mojito.jpg" alt="Mint Mojito Babe" />
+  <div class="coffee-info">
+    <h3>Mint Mojito Babe</h3>
+    <p>Refreshing mint and lime twist for chill vibes</p>
+    <span>Rs. 350</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(41)">
+  <img src="./images/mocktails/blue lagoon.jpg" alt="Blue Lagoon Glow" />
+  <div class="coffee-info">
+    <h3>Blue Lagoon Glow</h3>
+    <p>Electric blue citrus burst with a zesty kick</p>
+    <span>Rs. 370</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(42)">
+  <img src="./images/mocktails/peach iced tea.jpg" alt="Peach Please Iced Tea" />
+  <div class="coffee-info">
+    <h3>Peach Please Iced Tea</h3>
+    <p>Sweet peach tea, cold brewed to perfection</p>
+    <span>Rs. 340</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(43)">
+  <img src="./images/mocktails/gren aple.jpg" alt="Green Apple Popstar" />
+  <div class="coffee-info">
+    <h3>Green Apple Popstar</h3>
+    <p>Tangy green apple cooler with fizzy fun</p>
+    <span>Rs. 360</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(44)">
+  <img src="./images/mocktails/water melon.jpg" alt="Watermelon Slush Szn" />
+  <div class="coffee-info">
+    <h3>Watermelon Slush Szn</h3>
+    <p>Frozen watermelon blast – summer in a cup</p>
+    <span>Rs. 330</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(45)">
+  <img src="./images/mocktails/Lychee Mint Slushie Recipe.jpg" alt="Lychee Cloud Cooler" />
+  <div class="coffee-info">
+    <h3>Lychee Cloud Cooler</h3>
+    <p>Fluffy lychee refreshment with a dreamy feel</p>
+    <span>Rs. 360</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(46)">
+  <img src="./images/mocktails/pinacolada.jpg" alt="Virgin Pina Colada Mood" />
+  <div class="coffee-info">
+    <h3>Virgin Pina Colada Mood</h3>
+    <p>Creamy coconut and pineapple, island vibes</p>
+    <span>Rs. 390</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(47)">
+  <img src="./images/mocktails/pink lemoande.jpg" alt="Pink Lemonade Drip" />
+  <div class="coffee-info">
+    <h3>Pink Lemonade Drip</h3>
+    <p>Zingy citrus & berry fusion in a pretty pink</p>
+    <span>Rs. 340</span>
+  </div>
+</div>
+ </section>
+
+<!-- divider -->
+<section id="gelato" class="deals-banner" style="background-image: url('./images/background/icecream.jpg'); background-size: cover; background-position: bottom; padding: 4rem 2rem;">
+  <div class="text-center mb-5">
+    <h2 class="display-5 fw-bold" style="color: hsl(57, 100%, 90%); font-family: 'Fredoka', sans-serif; font-weight: 700;">Scoop It Like Its Hot</h2>
+    <p class="lead" style="color: hsl(0, 100%, 97%); font-family: 'Poppins', sans-serif; font-weight: 300;">For Girls And Icecream Lovers
+    </p>
+  </div>
+  </section>
+
+  <!-- gelato -->
+    <section>
+      <div class="card-container">
+ <div class="coffee-card" onclick="openCard(48)">
+  <img src="./images/icecreams/cookies and cream.jpg" alt="Cookie Dough Chaos" />
+  <div class="coffee-info">
+    <h3>Cookie Dough Chaos</h3>
+    <p>Chunks of cookie dough buried in creamy vanilla — pure sweet madness.</p>
+    <span>Rs. 320</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(49)">
+  <img src="./images/icecreams/biscoff.jpg" alt="Biscoff Blizzard" />
+  <div class="coffee-info">
+    <h3>Biscoff Blizzard</h3>
+    <p>Swirls of Biscoff and caramel in a storm of crunch. A blizzard worth the brain freeze.</p>
+    <span>Rs. 360</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(50)">
+  <img src="./images/icecreams/sunade.jpg" alt="Sundae Funday" />
+  <div class="coffee-info">
+    <h3>Sundae Funday</h3>
+    <p>Brownie base, scoops on top, sprinkles to finish — this isn’t just dessert, it’s a whole event.</p>
+    <span>Rs. 420</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(51)">
+  <img src="./images/icecreams/strawberry.jpg" alt="Strawberry Shortcake Chill" />
+  <div class="coffee-info">
+    <h3>Strawberry Shortcake Chill</h3>
+    <p>Layers of strawberry, cake, and vanilla scoops — it’s giving sweet summer date night.</p>
+    <span>Rs. 350</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(52)">
+  <img src="./images/icecreams/pack.jpg" alt="Waffle Cone Party Pack" />
+  <div class="coffee-info">
+    <h3>Waffle Cone Party Pack</h3>
+    <p>Crunchy cones, creamy scoops, and chaos toppings — this party doesn’t stop at one bite.</p>
+    <span>Rs. 390</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(53)">
+  <img src="./images/icecreams/chocolava.jpg" alt="Choco Lava Cream Dream" />
+  <div class="coffee-info">
+    <h3>Choco Lava Cream Dream</h3>
+    <p>Molten chocolate cake oozing into silky ice cream. It’s hot. It’s cold. It’s everything.</p>
+    <span>Rs. 440</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(54)">
+  <img src="./images/icecreams/sprinkle.jpg" alt="Rainbow Sprinkle Fantasy" />
+  <div class="coffee-info">
+    <h3>Rainbow Sprinkle Fantasy</h3>
+    <p>Colorful sprinkles, cotton candy swirls, and unicorn-level magic in every scoop.</p>
+    <span>Rs. 360</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(55)">
+  <img src="./images/icecreams/3 scoop.jpg" alt="Triple Threat Scoops" />
+  <div class="coffee-info">
+    <h3>Triple Threat Scoops</h3>
+    <p>Pick your power combo — any 3 scoops from our fab flavors. Create your chaos.</p>
+    <span>Rs. 380</span>
+  </div>
+</div>
+ </section>
+
+ <!-- divider -->
+<section id="brunch" class="deals-banner" style="background-image: url('./images/background/lunch.jpg'); background-size: cover; background-position: bottom; padding: 4rem 2rem;">
+  <div class="text-center mb-5">
+    <h2 class="display-5 fw-bold" style="color: hsl(0, 0%, 100%); font-family: 'Fredoka', sans-serif; font-weight: 700;">BRUNCH BADDIES</h2>
+    <p class="lead" style="color: hsl(0, 0%, 100%); font-family: 'Poppins', sans-serif; font-weight: 300;">For the ones who brunch harder than they work
+    </p>
+  </div>
+  </section>
+
+  <!-- brunch -->
+       <section>
+      <div class="card-container">
+<div class="coffee-card" onclick="openCard(57)">
+  <img src="./images/lunch/eggs.jpg" alt="Sunny Side Me Up" />
+  <div class="coffee-info">
+    <h3>Sunny Side Me Up</h3>
+    <p>Perfectly sunny eggs, crispy toast, and creamy avocado for that breakfast glow-up.</p>
+    <span>Rs. 390</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(58)">
+  <img src="./images/lunch/Breakfast Board with Florida OJ - Something….jpg" alt="The Big Boo Breakfast Platter" />
+  <div class="coffee-info">
+    <h3>The Big Boo Breakfast Platter</h3>
+    <p>A full plate of breakfast joy — eggs, toast, sausages, and all the good stuff.</p>
+    <span>Rs. 520</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(59)">
+  <img src="./images/lunch/Sausage and Peppers Sandwich with Cheese Recipe….jpg" alt="Sausage & Hash Brown Sandwich" />
+  <div class="coffee-info">
+    <h3>Sausage & Hash Brown Sandwich</h3>
+    <p>Loaded breakfast sandwich with crispy hash browns and juicy sausage. Yes please.</p>
+    <span>Rs. 450</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(60)">
+  <img src="./images/lunch/Mini Dutch Pancakes.jpg" alt="French Toast Drizzle" />
+  <div class="coffee-info">
+    <h3>French Toast Drizzle</h3>
+    <p>Golden toast drizzled in maple or Nutella — your sweet morning fix.</p>
+    <span>Rs. 380</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(61)">
+  <img src="./images/lunch/🔶 Croissant Sandwich with Scrambled Eggs 🔶  A….jpg" alt="Egg n' Cheese Croissant" />
+  <div class="coffee-info">
+    <h3>Egg n' Cheese Croissant</h3>
+    <p>Flaky croissant stuffed with melty cheese and fluffy eggs. Breakfast luxury.</p>
+    <span>Rs. 410</span>
+  </div>
+</div>
+
+<div class="coffee-card" onclick="openCard(62)">
+  <img src="./images/lunch/Mini Dutch Pancakes.jpg" alt="Mini Pancake Party Box" />
+  <div class="coffee-info">
+    <h3>Mini Pancake Party Box</h3>
+    <p>Stacked, fluffy, and ready to dip — party vibes in every pancake bite.</p>
+    <span>Rs. 1499</span>
+  </div>
+</div>
+ </section>
+
+
+ <!-- expend area -->
+
+<div class="card-details" id="cardDetails">
+  <div class="details-content">
+    <img id="detailImage" src="" alt="" />
+    <div class="text-side">
+      <h2 id="detailTitle"></h2>
+      <p id="detailDesc"></p>
+      <span id="detailPrice"></span>
+      <input type="number" id="detailQty" value="1" min="1" />
+      <textarea id="detailNote" placeholder="Any special instructions?"></textarea>
+      <button onclick="addCurrentToCart()">Add to Cart</button>
+      <span class="close-btn" onclick="closeCard()">×</span>
+    </div>
+  </div>
+</div>
+
+  <!-- Floating Cart Button -->
+<button class="cart-btn" onclick="toggleCart()">🛒</button>
+
+<!-- Sidebar Cart -->
+<div id="cartSidebar" class="cart-sidebar">
+  <div class="cart-header">
+    Your Cart
+    <button onclick="closeCart()">✖</button>
+  </div>
+
+  <!-- Cart Items -->
+  <div id="cartItems" class="cart-items"></div>
+
+  <!-- Footer -->
+  <div class="cart-footer">
+    <span>Total: <span id="total-price">0 PKR</span></span>
+    <button class="checkout-btn" onclick="placeOrder()">Place Order</button>
+  </div>
+</div>
+
+
+
+
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- FOOTER -->
+<footer class="cafe-footer">
+  <!-- Wave Shape -->
+  <div class="footer-wave">
+    <svg viewBox="0 0 500 150" preserveAspectRatio="none">
+      <path d="M0.00,49.98 C150.00,150.00 350.00,-50.00 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" 
+            style="stroke: none; fill: #ffda47;"></path>
+    </svg>
+  </div>
+
+  <div class="footer-container">
+    <!-- Left -->
+    <div class="footer-about">
+      <h2>☕ Smoothify</h2>
+      <p>Brewing smiles one cup at a time! Come for the coffee, stay for the love.</p>
+    </div>
+
+    <!-- Middle -->
+    <div class="footer-links">
+      <h3>🍩 Quick Links</h3>
+      <ul>
+        <li><a href="dashboard.html">🏠 Home</a></li>
+        <li><a href="menu2.html">📜 Menu</a></li>
+        <li><a href="Fruit-glass-enhanced 2.html">🎮 Fruit Glass Game</a></li>
+        <li><a href="contact 2.html">📞 Contact</a></li>
+        <li><a href="specials 2.html"> 🦐Specials</a></li>
+        <li><a href="sipnscore 2.html">👌SipnScore</a></li>
+      </ul>
+    </div>
+
+    <!-- Right -->
+    <div class="footer-social">
+      <h3>🌸 Connect</h3>
+      <div class="social-icons">
+  <!-- Instagram Login -->
+  <a href="https://www.instagram.com/accounts/login/" target="_blank">
+    <i class="fab fa-instagram"></i>
+  </a>
+
+  <!-- Twitter (X) Login -->
+  <a href="https://twitter.com/login" target="_blank">
+    <i class="fab fa-twitter"></i>
+  </a>
+
+  <!-- Facebook Login -->
+  <a href="https://www.facebook.com/login/" target="_blank">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+
+  <!-- Google Maps Location (Example) -->
+  <a href="https://www.google.com/maps" target="_blank">
+    <i class="fas fa-map-marker-alt"></i>
+  </a>
+</div>
+
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025  Smoothify </p>
+  </div>
+</footer>
+
+
+ <script src="script.js"></script>   
+ <script src="script2.js"></script>
+</body>
+</html>
